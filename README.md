@@ -63,7 +63,7 @@ If you want to contribute to the project, please first **check** if the work you
 
 ## Contributors
 <a href = "https://github.com/anchovycation/pingu-front-end/graphs/contributors">
-  <img src = "https://contrib.rocks/image?repo=anchovycation/pingu-front-end/"/>
+  <img src = "https://contrib.rocks/image?repo=anchovycation/pingu-front-end"/>
 </a>
 
 ## License
