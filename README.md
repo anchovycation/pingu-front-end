@@ -1,4 +1,3 @@
-# pingu-front-end
 <h1 align="center">
  <img width="200" src="https://tr.gravatar.com/userimage/183519138/efb93caed9ebdb11303b62379395458a.png?size=200"/>
  <br/>
