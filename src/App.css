@@ -1,10 +1,4 @@
-
-
-body{
-  background-color: var(--alihan);
-}
-
-.create-room-btn{
+.primary-btn{
   background-color: var(--beyza);
   font-size: 20px;
   padding-left: 15px;
@@ -16,14 +10,14 @@ body{
   text-decoration: none;
 }
 
-.create-room-btn:hover{
+.primary-btn:hover{
   color: var(--alihan);
 }
 
 .join-btn{
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 20px;
-  color: var(--beyza);
+  color: var(--beyza) !important;
   margin-left: 50px;
 }
 

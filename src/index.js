@@ -5,11 +5,13 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import About from './Routes/About';
+import CreateRoomPage from './Pages/CreateRoom/CreateRoom';
 import reportWebVitals from './reportWebVitals';
+
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +19,7 @@ ReactDOM.render(
       <Routes>
         <Route path='/' element={<App />} />
         <Route path='/about' element={<About />} />
+        <Route path="/create-room" element={<CreateRoomPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

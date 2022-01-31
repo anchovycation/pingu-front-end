@@ -1,6 +1,8 @@
 :root{
   --beyza: #EE562E;
   --alihan: #04051E;
+  --navy: #0d106e;
+  --light-navy: #090B48;
   --smoke: #595555;
 }
 
@@ -11,9 +13,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  background-color: var(--alihan) !important;
+  color: white !important;
 }

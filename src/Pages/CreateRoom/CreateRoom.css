@@ -1,0 +1,27 @@
+.create-room{
+    margin-top: 50px;
+}
+
+.create-room .header{
+    font-weight: bolder;
+    background-color: var(--alihan);
+}
+
+.create-room .header #room{
+    color: var(--beyza);
+}
+
+.inputs{
+    margin: auto;
+    min-width: 300px;
+}
+
+.submit-btn{
+    padding: 4px 15px;
+    background-color: var(--beyza);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+}
