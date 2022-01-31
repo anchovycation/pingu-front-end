@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
+
 import TextInput from '../../Components/TextInput/TextInput';
 import CameraChecker from '../../Components/CameraChecker/CameraChecker';
 
-import './CreateRoom.css';
+import './CreateRoom.scss';
 
 function CreateRoomPage() {
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
   const [videoLink, setVideoLink] = useState('');
   const [isCameraReady, setIsCameraReady] = useState(false);
-
+  const [isVideoLinkValid, setIsVideoLinkValid] = useState(true);
+  let hesError = false;
 
   const submit = () => {
+    if (!(videoLink.startsWith('https://www.youtube.com/watch?v=') || videoLink.startsWith('https://youtu.be/'))) {
+    hesError=true;  
+    return setIsVideoLinkValid(false);
+    }
+    setIsVideoLinkValid(true);
     console.log({ username, roomName, videoLink, isCameraReady });
   }
 
@@ -19,7 +26,7 @@ function CreateRoomPage() {
     <div className='container create-room'>
       <div className="row">
         <div className="col header">
-          <h2>Create a <span id='room'>Room</span></h2>
+          <h2>Create a <span className='orange-text'>Room</span></h2>
         </div>
       </div>
       <div className="row">
@@ -41,19 +48,24 @@ function CreateRoomPage() {
               />
             </div>
           </div>
-          <div className="row" style={{margin: '15px 0 25px 0'}}>
-            <div className="col" style={{ padding: '0'}}>
+          <div className="row" style={{ margin: '15px 0 25px 0' }}>
+            <div className="col" style={{ padding: '0' }}>
               <TextInput
                 valueSetter={setVideoLink}
                 label='Video Link:'
                 placeholder='https://www.youtube.com/watch?v=VNbFrgqeaMM'
-                detail='*Copy the address in the search bar in the browser'
+                detail='*Copy the address in the search bar in the browser or click share botton on YouTube'
+                hasError={!isVideoLinkValid}
               />
+              {
+                !isVideoLinkValid &&
+                <p className='error-text'>Video address must start with "<strong>https://youtu.be/</strong>" or "<strong>https://www.youtube.com/watch?v=</strong>"</p>
+              }
             </div>
           </div>
           <div className="row">
             <div className="col">
-              <CameraChecker valueSetter={setIsCameraReady}/>
+              <CameraChecker valueSetter={setIsCameraReady} />
             </div>
           </div>
           <div className="row">

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import './TextInput.css';
+
+import './TextInput.scss';
 
 function TextInput(props) {
 
@@ -11,13 +12,13 @@ function TextInput(props) {
   }, [])
 
   const callSetter = (event) => {
-    props.valueSetter(event.target.value);
+    props.valueSetter(event.target.value.trim());
   }
 
   return (
-    <div className="text-input" style={props.style}>
+    <div className='text-input' style={props.style}>
       <p className='header'>{props.label}</p>
-      <input type="text" ref={input} onChange={callSetter} placeholder={props.placeholder} />
+      <input type="text" className={props.hasError ? 'error' : undefined} ref={input} onChange={callSetter} placeholder={props.placeholder} />
       {props.detail && (<small className='detail'>{props.detail}</small>)}
     </div>
   );

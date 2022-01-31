@@ -1,0 +1,39 @@
+@import "./styles/variables.scss";
+
+.App {
+  .text {
+    padding: 200px 0 0 100px;
+
+    h1 {
+      color: white;
+      font-size: 50px;
+    }
+
+    .info {
+      color: $smoke;
+      font-size: 25px;
+    }
+  }
+
+  .primary-btn {
+    padding: 10px 15px;
+    background-color: $beyza;
+    border-radius: 15px;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    &:hover {
+      color: $alihan;
+    }
+  }
+
+  .join-btn {
+    margin-left: 50px;
+    color: $beyza !important;
+    font-size: 20px;
+    text-decoration: none !important;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}

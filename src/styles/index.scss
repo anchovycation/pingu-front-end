@@ -1,10 +1,6 @@
-:root{
-  --beyza: #EE562E;
-  --alihan: #04051E;
-  --navy: #0d106e;
-  --light-navy: #090B48;
-  --smoke: #595555;
-}
+// Shared styles
+
+@import './variables.scss';
 
 body {
   margin: 0;
@@ -13,6 +9,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--alihan) !important;
+  background-color: $alihan !important;
   color: white !important;
+}
+
+.orange-text {
+  color: $beyza;
 }

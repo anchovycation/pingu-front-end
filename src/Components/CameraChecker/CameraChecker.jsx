@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import './CameraChecker.css'
+import './CameraChecker.scss'
 
 function CameraChecker(props) {
 

@@ -1,0 +1,50 @@
+@import "../../styles/variables.scss";
+
+.text-input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        margin: 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    input {
+        height: 42px;
+        color: rgb(218, 218, 218);
+        font-size: 13;
+        font-weight: bold;
+        border: none;
+        border-radius: 12px;
+        background-color: $light-navy;
+        padding-left: 10px;
+
+        &::placeholder {
+            color: rgb(199, 196, 196);
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        &:focus {
+            color: white;
+            background-color: #0d106e;
+            outline: none;
+            &::placeholder {
+                color: rgba(199, 196, 196, 0.548);
+            }
+        }
+    }
+
+    .error {
+        border: 2px solid $red;
+    }
+
+    .detail {
+        margin-top: 6px;
+        color: rgb(199, 196, 196);
+        font-size: 10px;
+        font-weight: bold;
+    }
+}

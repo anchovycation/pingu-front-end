@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
     <div className='container'>
       <div className="row py-5">
         <div className="col-md-6 text">
-          <h1>The best way to <span className='penguening'>penguening</span> with<br/> friends.</h1>
+          <h1>The best way to <span className='orange-text'>penguening</span> with<br/> friends.</h1>
           <p className='info'>start watching a YouTube video now</p>
           <Link to="/create-room" className='primary-btn'>Create a Room</Link>
           <button type="button" className="btn btn-link join-btn">Join a Room</button>  
