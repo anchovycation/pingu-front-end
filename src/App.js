@@ -8,8 +8,8 @@ function App() {
         <div className="col-md-6 text">
           <h1>The best way to <span className='penguening'>penguening</span> with friends.</h1>
           <p className='info'>start watching a YouTube video now</p>
-          <a href="/create-room" className='createRoomBtn'>Create a Room</a>
-          <button type="button" class="btn btn-link joinBtn">Join a Room</button>  
+          <a href="/create-room" className='create-room-btn'>Create a Room</a>
+          <button type="button" class="btn btn-link join-btn">Join a Room</button>  
         </div>
         <div className="col-md-6">
           <img src="/pingu.png" alt="pingu" className='img-fluid' width="500px" height="500px"/>
