@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import About from './Routes/About';
 import reportWebVitals from './reportWebVitals';

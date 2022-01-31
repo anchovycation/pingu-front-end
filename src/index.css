@@ -1,3 +1,9 @@
+:root{
+  --beyza: #EE562E;
+  --alihan: #04051E;
+  --smoke: #595555;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
