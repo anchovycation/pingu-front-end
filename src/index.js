@@ -5,7 +5,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import './index.css';
+import './index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import About from './Routes/About';
