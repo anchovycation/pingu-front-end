@@ -1,8 +1,6 @@
-:root{
-  --beyza: #EE562E;
-  --alihan: #04051E;
-  --smoke: #595555;
-}
+// Shared styles
+
+@import './variables.scss';
 
 body {
   margin: 0;
@@ -11,9 +9,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: $alihan !important;
+  color: white !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.orange-text {
+  color: $beyza;
 }

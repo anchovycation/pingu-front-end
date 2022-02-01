@@ -1,0 +1,23 @@
+@import "../../styles/variables.scss";
+
+.camera-checker {
+    #camera {
+        width: 100%;
+        background-color: black;
+        border: 2px solid $beyza;
+    }
+
+    #camera-info {
+        font-size: 14px;
+
+        #camera-error {
+            color: $beyza;
+        }
+    }
+
+    #cbx-label {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0;
+    }
+}

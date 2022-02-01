@@ -1,49 +1,39 @@
-body {
-  background-color: var(--alihan);
-}
+@import "./styles/variables.scss";
 
-.create-room-btn {
-  background-color: var(--beyza);
-  font-size: 20px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 15px;
-  color: white;
-  text-decoration: none;
+.App {
+  .text {
+    padding: 200px 0 0 100px;
 
-  &:hover {
-    color: var(--alihan);
+    h1 {
+      color: white;
+      font-size: 50px;
+    }
+
+    .info {
+      color: $smoke;
+      font-size: 25px;
+    }
   }
-}
 
-.join-btn {
-  text-decoration: none;
-  font-size: 20px;
-  color: var(--beyza);
-  margin-left: 50px;
-
-  &:hover {
-    color: #ffffff;
-  }
-}
-
-.text {
-  padding-top: 200px;
-  padding-left: 100px;
-
-  h1 {
+  .primary-btn {
+    padding: 10px 15px;
+    background-color: $beyza;
+    border-radius: 15px;
     color: white;
-    font-size: 50px;
+    font-size: 20px;
+    text-decoration: none;
+    &:hover {
+      color: $alihan;
+    }
   }
-}
 
-.penguening {
-  color: var(--beyza);
-}
-
-.info {
-  color: var(--smoke);
-  font-size: 25px;
+  .join-btn {
+    margin-left: 50px;
+    color: $beyza !important;
+    font-size: 20px;
+    text-decoration: none !important;
+    &:hover {
+      color: #ffffff;
+    }
+  }
 }

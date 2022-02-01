@@ -1,0 +1,31 @@
+@import "../../styles/variables.scss";
+
+.create-room {
+    margin-top: 50px;
+
+    .header {
+        font-weight: bolder;
+        background-color: $alihan;
+    }
+
+    .inputs {
+        margin: auto;
+        min-width: 300px;
+
+        .error-text{
+            color: $red;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    }
+}
+
+.submit-btn {
+    padding: 4px 15px;
+    background-color: $beyza;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
