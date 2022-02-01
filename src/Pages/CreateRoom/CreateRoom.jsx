@@ -52,7 +52,7 @@ function CreateRoomPage() {
                 valueSetter={setVideoLink}
                 label='Video Link:'
                 placeholder='https://www.youtube.com/watch?v=VNbFrgqeaMM'
-                detail='*Copy the address in the search bar in the browser or click share botton on YouTube'
+                detail='*Copy the address in the search bar in the browser or click share button on YouTube'
                 hasError={!isVideoLinkValid}
               />
               {

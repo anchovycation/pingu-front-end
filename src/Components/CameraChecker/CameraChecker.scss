@@ -5,6 +5,8 @@
         width: 100%;
         background-color: black;
         border: 2px solid $beyza;
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
     }
 
     #camera-info {
@@ -19,5 +21,30 @@
         font-size: 14px;
         font-weight: bold;
         margin: 0;
+    }
+
+    .checkbox-alias{
+        background-color: $alihan;
+        display: inline-block;
+        border-radius: 5px;
+        border: 1px solid $smoke;
+        width: 15px;
+        height: 15px;
+        z-index: 1;
+        position: relative;
+        transition: all 250ms ease-out;
+        cursor: pointer;
+    }
+    
+    .invisible-checkbox {
+        input[type=checkbox]{
+        display: none;
+        margin-right: -20px;
+        position: relative;
+        z-index: 2; 
+        }
+        input[type=checkbox]:checked + .checkbox-alias{
+            background-color: $beyza;
+        }
     }
 }
