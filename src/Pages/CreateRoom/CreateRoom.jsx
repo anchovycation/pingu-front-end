@@ -11,11 +11,9 @@ function CreateRoomPage() {
   const [videoLink, setVideoLink] = useState('');
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isVideoLinkValid, setIsVideoLinkValid] = useState(true);
-  let hesError = false;
 
   const submit = () => {
     if (!(videoLink.startsWith('https://www.youtube.com/watch?v=') || videoLink.startsWith('https://youtu.be/'))) {
-    hesError=true;  
     return setIsVideoLinkValid(false);
     }
     setIsVideoLinkValid(true);
