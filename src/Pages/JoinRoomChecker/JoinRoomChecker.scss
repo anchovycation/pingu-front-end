@@ -1,0 +1,25 @@
+@import "../../styles/variables.scss";
+
+.join-room {
+    margin-top: 50px;
+
+    .header {
+        font-weight: bolder;
+        background-color: $alihan;
+    }
+
+    .inputs {
+        margin: auto;
+        min-width: 300px;
+    }
+}
+
+.submit-btn {
+    padding: 4px 15px;
+    background-color: $beyza;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
