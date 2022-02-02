@@ -10,7 +10,7 @@ function JoinRoomPage() {
   const navigate = useNavigate();
 
   const next = () => {
-    navigate('/join-room/:roomId')
+    navigate(`/join-room/${roomId}`)
     console.log({ roomId });
   }
 
