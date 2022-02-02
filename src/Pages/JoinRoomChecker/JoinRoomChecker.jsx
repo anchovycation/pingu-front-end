@@ -1,17 +1,20 @@
 import React, { useState  } from 'react';
 import { useNavigate } from "react-router-dom";
 
+
 import TextInput from '../../Components/TextInput/TextInput';
+import CameraChecker from '../../Components/CameraChecker/CameraChecker';
 
-import './JoinRoom.scss';
+import './JoinRoomChecker.scss';
 
-function JoinRoomPage() {
-  const [roomId, setRoomId] = useState('');
+function JoinRoomCheckerPage() {
+  const [username, setUsername] = useState('');
+  const [isCameraReady, setIsCameraReady] = useState(false);
   const navigate = useNavigate();
 
-  const next = () => {
-    navigate('/join-room/:roomId')
-    console.log({ roomId });
+  const submit = () => {
+    navigate("/");
+    console.log({ username, isCameraReady });
   }
 
   return (
@@ -22,27 +25,32 @@ function JoinRoomPage() {
         </div>
       </div>
       <div className="row">
-      <div className="col-4 input py-5">
+        <div className="col-4 inputs py-5">
           <div className="row">
-            <div className="col">
+            <div className="col-6">
               <TextInput
-                valueSetter={setRoomId}
-                label='Room ID:'
-                placeholder='123456789'
+                valueSetter={setUsername}
+                label='Name:'
+                placeholder='Chandler Bing'
                 isFocused={true}
               />
             </div>
           </div>
           <div className="row">
+            <div className="col py-5">
+              <CameraChecker valueSetter={setIsCameraReady} />
+            </div>
+          </div>
+          <div className="row">
             <div
-              className="col py-5"
+              className="col"
               style={{
                 display: 'flex',
                 justifyContent: 'flex-end',
                 marginTop: '10px'
               }}
             >
-              <button className='next-btn' onClick={next}>Next</button>
+              <button className='submit-btn' onClick={submit}>Join</button>
             </div>
           </div>
         </div>
@@ -51,4 +59,4 @@ function JoinRoomPage() {
   );
 }
 
-export default JoinRoomPage;
+export default JoinRoomCheckerPage;

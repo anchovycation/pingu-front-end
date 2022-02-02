@@ -9,6 +9,7 @@ import {
 import App from './App';
 import CreateRoomPage from './Pages/CreateRoom/CreateRoom';
 import JoinRoomPage from './Pages/JoinRoom/JoinRoom';
+import JoinRoomCheckerPage from './Pages/JoinRoomChecker/JoinRoomChecker';
 
 import './styles/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,7 +20,8 @@ ReactDOM.render(
       <Routes>
         <Route path='/' element={<App />} />
         <Route path="/create-room" element={<CreateRoomPage />} />
-        <Route path="/join-room/:roomId" element={<JoinRoomPage />} />
+        <Route path="/join-room" element={<JoinRoomPage />} />
+        <Route path="/join-room/:roomId" element={<JoinRoomCheckerPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

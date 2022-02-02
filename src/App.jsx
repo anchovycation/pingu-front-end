@@ -11,7 +11,7 @@ function App() {
           <h1>The best way to <span className='orange-text'>penguening</span> with<br/> friends.</h1>
           <p className='info'>start watching a YouTube video now</p>
           <Link to="/create-room" className='primary-btn'>Create a Room</Link>
-          <Link to="/join-room/:roomId" className='join-btn'>Join a Room</Link>
+          <Link to="/join-room" className='join-btn'>Join a Room</Link>
         </div>
         <div className="col-md-6">
           <img src="/pingu.png" alt="pingu" className='img-fluid' width="500px" height="500px"/>
