@@ -2,22 +2,35 @@ import React, { useState } from 'react';
 
 import TextInput from '../../Components/TextInput/TextInput';
 import CameraChecker from '../../Components/CameraChecker/CameraChecker';
+import axios from '../../Axios';
 
 import './CreateRoom.scss';
+import { useNavigate } from 'react-router-dom';
 
 function CreateRoomPage() {
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [videoLink, setVideoLink] = useState('');
+  const [videoUrl, setvideoUrl] = useState('');
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isVideoLinkValid, setIsVideoLinkValid] = useState(true);
+  const navigate = useNavigate()
 
-  const submit = () => {
-    if (!(videoLink.startsWith('https://www.youtube.com/watch?v=') || videoLink.startsWith('https://youtu.be/'))) {
-    return setIsVideoLinkValid(false);
+  const submit = async () => {
+    if (!(videoUrl.startsWith('https://www.youtube.com/watch?v=') || videoUrl.startsWith('https://youtu.be/'))) {
+      return setIsVideoLinkValid(false);
     }
     setIsVideoLinkValid(true);
-    console.log({ username, roomName, videoLink, isCameraReady });
+    let { data, status } = await axios.post('/create-room', {
+      username,
+      roomName,
+      videoUrl,
+    })
+
+    if (status !== 201) {
+      return;
+    }
+
+    return navigate(`/rooms/${data.room.id}`);
   }
 
   return (
@@ -49,7 +62,7 @@ function CreateRoomPage() {
           <div className="row" style={{ margin: '15px 0 25px 0' }}>
             <div className="col" style={{ padding: '0' }}>
               <TextInput
-                valueSetter={setVideoLink}
+                valueSetter={setvideoUrl}
                 label='Video Link:'
                 placeholder='https://www.youtube.com/watch?v=VNbFrgqeaMM'
                 detail='*Copy the address in the search bar in the browser or click share button on YouTube'

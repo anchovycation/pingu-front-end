@@ -39,9 +39,9 @@ function CameraChecker(props) {
   return <div className='camera-checker'>
     <div className="row">
       <div className="col-1 video-cbx">
-        <div class="invisible-checkbox">
+        <div className="invisible-checkbox">
           <input type="checkbox" id="r1" onChange={checkCam}/>
-          <label className="checkbox-alias" for="r1"></label>
+          <label className="checkbox-alias" htmlFor='r1'></label>
         </div>
       </div>
       <div className="col-11">

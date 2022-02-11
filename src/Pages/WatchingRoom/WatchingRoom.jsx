@@ -10,7 +10,7 @@ function WatchingRoomPage() {
       </div>
       <div className='row'>
         <div className='col-8'>
-        <div class="ratio ratio-16x9">
+        <div className="ratio ratio-16x9">
         <iframe src="https://www.youtube.com/embed/K05-DOiXnF0" allowfullscreen></iframe>
         </div>
         </div>

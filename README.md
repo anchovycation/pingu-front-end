@@ -52,6 +52,11 @@ Install dependencies
 npm install
 ```
 
+## Set Environment Variables
+```bash
+cp sample.env .env
+```
+
 ## Start
 ```bash
 npm start
