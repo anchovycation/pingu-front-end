@@ -1,6 +1,21 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import io from "socket.io-client";
 import './WatchingRoom.scss';
 
 function WatchingRoomPage() {
+  const [socket, setSocket] = useState(null);
+  const { roomId } = useParams();
+
+  useEffect( () => {
+    const newSocket = io(process.env.REACT_APP_API_PATH, {transports: ['websocket']});
+    setSocket(newSocket);
+    
+    newSocket.emit('join-room',  { roomId });
+
+    return () => newSocket.close();
+  },[setSocket]);
+
   return (
     <div className='watching-room container'>
       <div className='row container'>
