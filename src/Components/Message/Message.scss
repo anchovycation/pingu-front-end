@@ -1,0 +1,14 @@
+@import "../../styles/variables.scss";
+
+.message{
+  .username-date{
+    display: flex;
+    color: $smoke;
+    font-size: 15px;
+    justify-content: space-between;
+  }
+
+  .name{
+    color: $beyza;
+  }
+}
