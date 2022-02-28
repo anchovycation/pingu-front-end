@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
+
+import Chat from "../../Components/Chat/Chat";
 import './WatchingRoom.scss';
 
 function WatchingRoomPage() {
@@ -29,7 +31,8 @@ function WatchingRoomPage() {
         <iframe src="https://www.youtube.com/embed/K05-DOiXnF0" allowfullscreen></iframe>
         </div>
         </div>
-        <div className='col-3 chat'>chat</div>
+        <div className='col-3 chat'><Chat/>
+        </div>
       </div>
       <div className='row'>
         <div className='col-8 cameras'>cameras</div>
