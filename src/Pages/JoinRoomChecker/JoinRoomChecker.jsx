@@ -1,20 +1,30 @@
-import React, { useState  } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
 
 
 import TextInput from '../../Components/TextInput/TextInput';
 import CameraChecker from '../../Components/CameraChecker/CameraChecker';
 
 import './JoinRoomChecker.scss';
+import axios from '../../Axios';
 
 function JoinRoomCheckerPage() {
+  const { roomId } = useParams();
   const [username, setUsername] = useState('');
   const [isCameraReady, setIsCameraReady] = useState(false);
   const navigate = useNavigate();
 
   const submit = () => {
-    navigate("/");
-    console.log({ username, isCameraReady });
+    axios.post(`/join-room/${roomId}`, {
+      username
+    })
+      .then(res => res.data)
+      .then(({ room, user }) => {
+        navigate(`/rooms/${room.id}`,{
+          room,
+          user
+        });
+      })
   }
 
   return (
