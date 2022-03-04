@@ -20,10 +20,9 @@ function JoinRoomCheckerPage(props) {
 
   const submit = async () => {
     try {
-      let response = await axios.post(`join-room/${roomId}`, {
+      const { data, status } = await axios.post(`join-room/${roomId}`, {
         username
-      });
-      const { data, status } = response;
+      }); 
       const { room } = data;
       navigate(`/rooms/${roomId}`, {
         state: {

@@ -20,17 +20,25 @@ function CreateRoomPage() {
       return setIsVideoLinkValid(false);
     }
     setIsVideoLinkValid(true);
-    let { data, status } = await axios.post('/create-room', {
-      username,
-      roomName,
-      videoUrl,
-    })
-
-    if (status !== 201) {
-      return;
+    try {
+      let { data, status } = await axios.post('/create-room', {
+        username,
+        roomName,
+        videoUrl,
+      })
+      if (status !== 201) {
+        return;
+      }
+      const { room, user } = data;
+      return navigate(`/rooms/${data.room.id}`, {
+        state: {
+          room,
+          user,
+        }
+      });
+    } catch (error) {
+      return alert(error.response.data.message);
     }
-
-    return navigate(`/rooms/${data.room.id}`);
   }
 
   return (
