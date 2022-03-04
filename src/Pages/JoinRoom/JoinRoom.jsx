@@ -1,4 +1,4 @@
-import React, { useState  } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import TextInput from '../../Components/TextInput/TextInput';
@@ -10,8 +10,7 @@ function JoinRoomPage() {
   const navigate = useNavigate();
 
   const next = () => {
-    navigate(`/join-room/${roomId}`)
-    console.log({ roomId });
+    navigate(`/join-room/${roomId}`, { state: { roomId } });
   }
 
   return (
@@ -22,7 +21,7 @@ function JoinRoomPage() {
         </div>
       </div>
       <div className="row">
-      <div className="col-4 input py-5">
+        <div className="col-4 input py-5">
           <div className="row">
             <div className="col">
               <TextInput
