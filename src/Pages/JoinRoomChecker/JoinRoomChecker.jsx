@@ -45,7 +45,7 @@ function JoinRoomCheckerPage(props) {
       <div className="row">
         <div className="col-4 inputs py-5">
           <div className="row">
-            <div className="col-6">
+            <div className="col">
               <TextInput
                 valueSetter={setUsername}
                 label='Name:'

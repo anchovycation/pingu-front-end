@@ -31,7 +31,7 @@ function WatchingRoomPage() {
     <div className='watching-room container'>
       <div className='row container'>
         <div className="col header">
-          <h2><span className='orange-text'>She's Your Lobster </span></h2>
+          <h2><span className='orange-text'>{room.name}</span></h2>
         </div>
       </div>
       <div className='row'>
