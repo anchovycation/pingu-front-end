@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import Chat from "../../Components/Chat/Chat";
 import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
@@ -7,18 +7,23 @@ import SOCKET_EVENTS from "../../Constants/SocketEvents";
 
 import './WatchingRoom.scss';
 
-function WatchingRoomPage(params) {
-  const [socket, setSocket] = useState({ on() { } });
-  const [room, setRoom] = useState(params.room);
-  const [user, setUser] = useState(params.user);
-  const { roomId } = useParams();
+function WatchingRoomPage() {
+  const { state } = useLocation();
+  (() => {
+    if (!state) {
+      // Parametre olarak gelen oda ve kullanıcı değerleri olmadığında kullanıcı oda bulunamadı sayfasına yönlendirilmeli.
+      window.location.replace('/');
+    }
+  })()
+  const [room, setRoom] = useState(state.room);
+  const [user, setUser] = useState(state.user);
+  const [socket, setSocket] = useState(null);
+  const roomId = room.id;
 
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_API_PATH, { transports: ['websocket'] });
     setSocket(newSocket);
-
     newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { roomId });
-
     return () => newSocket.close();
   }, []);
 
@@ -30,7 +35,7 @@ function WatchingRoomPage(params) {
     <div className='watching-room container'>
       <div className='row container'>
         <div className="col header">
-          <h2><span className='orange-text'>She's Your Lobster </span></h2>
+          <h2><span className='orange-text'>{room.name}</span></h2>
         </div>
       </div>
       <div className='row'>

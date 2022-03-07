@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
-
-
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TextInput from '../../Components/TextInput/TextInput';
 import CameraChecker from '../../Components/CameraChecker/CameraChecker';
-
-import './JoinRoomChecker.scss';
 import axios from '../../Axios';
 
-function JoinRoomCheckerPage() {
-  const { roomId } = useParams();
+import './JoinRoomChecker.scss';
+
+function JoinRoomCheckerPage(props) {
+  const { state } = useLocation();
   const [username, setUsername] = useState('');
   const [isCameraReady, setIsCameraReady] = useState(false);
   const navigate = useNavigate();
+  let { roomId } = useParams();
+  
+  if (!state) {
+    // burada doğrudan link ile gelenler için api ile konuşularak roomId'ye sahip oda olup olmadığı kontrol edilmeli
+  }
 
-  const submit = () => {
-    axios.post(`/join-room/${roomId}`, {
-      username
-    })
-      .then(res => res.data)
-      .then(({ room, user }) => {
-        navigate(`/rooms/${room.id}`,{
+  const submit = async () => {
+    try {
+      const { data, status } = await axios.post(`join-room/${roomId}`, {
+        username
+      }); 
+      const { room } = data;
+      navigate(`/rooms/${roomId}`, {
+        state: {
           room,
-          user
-        });
-      })
+          user: room.users[room.users.length - 1],
+        }
+      });
+    } catch (error) {
+      return alert(error.response.data.message);
+    }
   }
 
   return (
@@ -37,7 +44,7 @@ function JoinRoomCheckerPage() {
       <div className="row">
         <div className="col-4 inputs py-5">
           <div className="row">
-            <div className="col-6">
+            <div className="col">
               <TextInput
                 valueSetter={setUsername}
                 label='Name:'
