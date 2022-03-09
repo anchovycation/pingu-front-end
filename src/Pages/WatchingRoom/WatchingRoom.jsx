@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
-
 import Chat from "../../Components/Chat/Chat";
+import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
+import SOCKET_EVENTS from "../../Constants/SocketEvents";
+
 import './WatchingRoom.scss';
 
 function WatchingRoomPage() {
@@ -21,11 +23,13 @@ function WatchingRoomPage() {
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_API_PATH, { transports: ['websocket'] });
     setSocket(newSocket);
-
-    newSocket.emit('join-room', { roomId });
-
+    newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { roomId });
     return () => newSocket.close();
-  }, [setSocket]);
+  }, []);
+
+  socket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
+    setRoom(room);
+  })
 
   return (
     <div className='watching-room container'>
@@ -36,8 +40,10 @@ function WatchingRoomPage() {
       </div>
       <div className='row'>
         <div className='col-8'>
-          <div className="ratio ratio-16x9">
-            <iframe src="https://www.youtube.com/embed/K05-DOiXnF0" allowfullscreen></iframe>
+          <div className="">
+            {
+              room?.video?.link ? (<YouTubePlayer url={room.video.link} />) : (<h3>video not found</h3>)
+            }
           </div>
         </div>
         <div className='col-3 chat'><Chat />

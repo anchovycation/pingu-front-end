@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-
-
 import TextInput from '../../Components/TextInput/TextInput';
 import CameraChecker from '../../Components/CameraChecker/CameraChecker';
+import axios from '../../Axios';
 
 import './JoinRoomChecker.scss';
-import axios from '../../Axios';
 
 function JoinRoomCheckerPage(props) {
   const { state } = useLocation();
@@ -14,6 +12,7 @@ function JoinRoomCheckerPage(props) {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const navigate = useNavigate();
   let { roomId } = useParams();
+  
   if (!state) {
     // burada doğrudan link ile gelenler için api ile konuşularak roomId'ye sahip oda olup olmadığı kontrol edilmeli
   }
