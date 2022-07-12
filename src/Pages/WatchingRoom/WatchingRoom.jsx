@@ -20,21 +20,34 @@ function WatchingRoomPage() {
   const [user, setUser] = useState(state.user);
   const [socket, setSocket] = useState(null);
   const [text, setText] = useState("");
+  const [messages, setMessages] = useState([]);
   const id = room.id;
+  const userId = user.id;
 
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_API_PATH, { transports: ['websocket'] });
     setSocket(newSocket);
-    newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id });
+    newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId });
     newSocket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
       setRoom(room);
-    })
+    });
+
+    newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({text, user}) => {
+      let temp = messages;
+      temp.push({
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        message: text
+      });
+      setMessages([...temp]);
+     });
     return () => newSocket.close();
   }, []);
 
   //mesajlasma socketi eklendiginde calistirilacak fonksiyon
   const click = () => {
-    console.log(text);
+    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, {id, text, user})
   }
   return (
     <Context.Provider value={{setText, click}}>
@@ -52,7 +65,7 @@ function WatchingRoomPage() {
               }
             </div>
           </div>
-          <div className='col-3 chat'><Chat />
+          <div className='col-3 chat'><Chat messages={messages} />
           </div>
         </div>
         <div className='row'>
