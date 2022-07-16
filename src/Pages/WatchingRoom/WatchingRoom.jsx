@@ -15,7 +15,7 @@ function WatchingRoomPage() {
       // Parametre olarak gelen oda ve kullanıcı değerleri olmadığında kullanıcı oda bulunamadı sayfasına yönlendirilmeli.
       window.location.replace('/');
     }
-  })()
+  })();
   const [room, setRoom] = useState(state.room);
   const [user, setUser] = useState(state.user);
   const [socket, setSocket] = useState(null);
@@ -23,34 +23,46 @@ function WatchingRoomPage() {
   const [messages, setMessages] = useState([]);
   const id = room.id;
   const userId = user.id;
-
+  const username = user.username;
+  const [name, setName] = useState("");
   useEffect(() => {
-    const newSocket = io(process.env.REACT_APP_API_PATH, { transports: ['websocket'] });
+    const newSocket = io(process.env.REACT_APP_API_PATH, {
+      transports: ["websocket"],
+    });
     setSocket(newSocket);
     newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId });
     newSocket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
       setRoom(room);
     });
 
-    newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({text, user}) => {
+    newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ text, user }) => {
+      setName("");
       let temp = messages;
       temp.push({
         id: user.id,
         username: user.username,
         role: user.role,
-        message: text
+        message: text,
       });
       setMessages([...temp]);
-     });
+    });
+
+    newSocket.on(SOCKET_EVENTS.DISPLAY, ({ username }) => {
+      setName(username);
+    });
     return () => newSocket.close();
   }, []);
 
+  const press = () => {
+    socket.emit(SOCKET_EVENTS.TYPING, { id, username });
+  };
+
   //mesajlasma socketi eklendiginde calistirilacak fonksiyon
   const click = () => {
-    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, {id, text, user})
-  }
+    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });
+  };
   return (
-    <Context.Provider value={{setText, click}}>
+    <Context.Provider value={{ setText, click, press }}>
       <div className='watching-room container'>
         <div className='row container'>
           <div className="col header">
@@ -65,7 +77,7 @@ function WatchingRoomPage() {
               }
             </div>
           </div>
-          <div className='col-3 chat'><Chat messages={messages} />
+          <div className='col-3 chat'><Chat messages={messages} username={name} />
           </div>
         </div>
         <div className='row'>

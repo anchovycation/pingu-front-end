@@ -5,6 +5,8 @@ const SOCKET_EVENTS = {
   JOINED: 'joined',
   SEND_MESSAGE: 'send-message',
   RECEIVE_MESSAGE: 'receive-message',
+  TYPING: 'typing',
+  DISPLAY: 'display',
 };
 
 export default SOCKET_EVENTS;

@@ -18,7 +18,12 @@ function TextInput(props) {
   return (
     <div className='text-input' style={props.style}>
       <p className='header'>{props.label}</p>
-      <input type="text" className={props.hasError ? 'error' : undefined} ref={input} onChange={callSetter} placeholder={props.placeholder} />
+      <input type="text" 
+        className={props.hasError ? 'error' : undefined} 
+        ref={input} onChange={callSetter} 
+        onKeyPress={props.press} 
+        placeholder={props.placeholder} 
+      />
       {props.detail && (<small className='detail'>{props.detail}</small>)}
     </div>
   );

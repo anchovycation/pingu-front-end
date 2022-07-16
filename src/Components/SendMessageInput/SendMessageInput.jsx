@@ -7,7 +7,7 @@ import { Context } from "../../Contexts/SendMessageInputContext";
 import './SendMessageInput.scss'
 
 function SendMessageInput () {
-  const { setText, click } = useContext(Context);
+  const { setText, click, press } = useContext(Context);
 
   return (
     <div className="send-input">
@@ -17,6 +17,7 @@ function SendMessageInput () {
             valueSetter={setText}
             placeholder='Hey! How you doin?'
             isFocused={true}
+            press={press}
           />
         </div>
         <div className="col-2 icon">
