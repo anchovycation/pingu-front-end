@@ -3,7 +3,7 @@ import SendMessageInput from '../SendMessageInput/SendMessageInput';
 import Message from '../Message/Message';
 import './Chat.scss'
 
-function Chat({messages}) {
+function Chat({messages, username}) {
   const colors = [
     '#FF0000', // red
     '#FFA500', // orange
@@ -49,6 +49,7 @@ function Chat({messages}) {
       }    
       </div>
       <div className='send-message-input'>
+        {username !== "" ? <p>{username} typing</p>: null}
         <SendMessageInput/>
       </div>
     </div>
