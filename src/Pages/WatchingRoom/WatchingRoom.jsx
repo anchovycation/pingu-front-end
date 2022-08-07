@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
-import Chat from "../../Components/Chat/Chat";
+import ChatPlaylistContainer from '../../Components/ChatPlaylistContainer/ChatPlaylistContainer';
 import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
 import SOCKET_EVENTS from "../../Constants/SocketEvents";
 import { Context } from '../../Contexts/SendMessageInputContext';
@@ -21,10 +21,13 @@ function WatchingRoomPage() {
   const [socket, setSocket] = useState(null);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
+  const [typingUser, setTypingUser] = useState("");
+  const [playlist, setPlaylist] = useState(state.room.playlist);
+  
   const id = room.id;
   const userId = user.id;
   const username = user.username;
-  const [name, setName] = useState("");
+
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_API_PATH, {
       transports: ["websocket"],
@@ -32,11 +35,11 @@ function WatchingRoomPage() {
     setSocket(newSocket);
     newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId });
     newSocket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
-      setRoom(room);
+      setRoom(JSON.parse(room));
     });
 
     newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ text, user }) => {
-      setName("");
+      setTypingUser("");
       let temp = messages;
       temp.push({
         id: user.id,
@@ -48,19 +51,29 @@ function WatchingRoomPage() {
     });
 
     newSocket.on(SOCKET_EVENTS.DISPLAY, ({ username }) => {
-      setName(username);
+      setTypingUser(username);
     });
+
     return () => newSocket.close();
   }, []);
-
+  
   const press = () => {
     socket.emit(SOCKET_EVENTS.TYPING, { id, username });
   };
 
   //mesajlasma socketi eklendiginde calistirilacak fonksiyon
   const click = () => {
-    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });
+    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });    
   };
+
+  let playlistProps = {
+    playlist,
+  },
+  chatProps = { 
+    messages,
+    typingUser,
+  };
+
   return (
     <Context.Provider value={{ setText, click, press }}>
       <div className='watching-room container'>
@@ -77,7 +90,8 @@ function WatchingRoomPage() {
               }
             </div>
           </div>
-          <div className='col-3 chat'><Chat messages={messages} username={name} />
+          <div className='col-3 chat-playlist'>
+            <ChatPlaylistContainer playlistProps={playlistProps} chatProps={chatProps} />
           </div>
         </div>
         <div className='row'>

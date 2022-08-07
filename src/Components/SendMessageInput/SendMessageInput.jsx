@@ -8,7 +8,6 @@ import './SendMessageInput.scss'
 
 function SendMessageInput () {
   const { setText, click, press } = useContext(Context);
-
   return (
     <div className="send-input">
       <div className="row">

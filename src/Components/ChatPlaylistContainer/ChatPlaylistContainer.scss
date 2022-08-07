@@ -1,0 +1,25 @@
+@import "../../styles/variables.scss";
+
+.chat-playlist-container{
+  
+  .menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 5px;
+    margin-bottom: 3px;
+    background-color: darken($blacksea, 1);
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    span{
+      width: 100%;
+      text-align: center;
+      transition: border-color .3s;
+    }
+    .selected{
+      border-bottom: 3px solid $beyza;
+    }
+  }
+}
