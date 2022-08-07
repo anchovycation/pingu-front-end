@@ -11,7 +11,7 @@ function PlaylistItem({ id, username, link }) {
       <div className="thumbnail">
         <img
           src="https://www.techsmith.com/blog/wp-content/uploads/2019/06/YouTube-Thumbnail-Sizes.png"
-          alt="palylist iltem thumbnail"
+          alt={link}
         />
       </div>
       <div className="content">

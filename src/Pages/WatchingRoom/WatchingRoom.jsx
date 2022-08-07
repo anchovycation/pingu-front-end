@@ -21,7 +21,7 @@ function WatchingRoomPage() {
   const [socket, setSocket] = useState(null);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
-  const [name, setName] = useState("");
+  const [typingUser, setTypingUser] = useState("");
   const [playlist, setPlaylist] = useState(state.room.playlist);
   
   const id = room.id;
@@ -39,7 +39,7 @@ function WatchingRoomPage() {
     });
 
     newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ text, user }) => {
-      setName("");
+      setTypingUser("");
       let temp = messages;
       temp.push({
         id: user.id,
@@ -51,7 +51,7 @@ function WatchingRoomPage() {
     });
 
     newSocket.on(SOCKET_EVENTS.DISPLAY, ({ username }) => {
-      setName(username);
+      setTypingUser(username);
     });
 
     return () => newSocket.close();
@@ -67,11 +67,11 @@ function WatchingRoomPage() {
   };
 
   let playlistProps = {
-    playlist
+    playlist,
   },
   chatProps = { 
     messages,
-    username
+    typingUser,
   };
 
   return (
@@ -92,7 +92,6 @@ function WatchingRoomPage() {
           </div>
           <div className='col-3 chat-playlist'>
             <ChatPlaylistContainer playlistProps={playlistProps} chatProps={chatProps} />
-            {/* <Chat messages={messages} username={name} /> */}
           </div>
         </div>
         <div className='row'>
