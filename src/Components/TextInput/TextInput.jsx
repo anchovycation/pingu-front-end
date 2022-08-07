@@ -22,7 +22,7 @@ function TextInput(props) {
         className={props.hasError ? 'error' : undefined} 
         ref={input} onChange={callSetter} 
         onKeyPress={props.press} 
-        placeholder={props.placeholder} 
+        placeholder={props.placeholder}
       />
       {props.detail && (<small className='detail'>{props.detail}</small>)}
     </div>

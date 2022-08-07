@@ -1,0 +1,44 @@
+@import "../../../../styles/variables.scss";
+
+.playlist-item{
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  justify-content: space-between;
+  background: darken($color: $blacksea, $amount: 1);
+  
+
+  &:hover .control-buttons {
+    opacity: 1;
+  }
+  .thumbnail{
+    img{
+      width: 60px;
+      height: 60px;
+    }
+  }
+  .content{
+    width: 100%;
+    padding: 0 5px;
+    text-align: right;
+    *{
+      margin: 0;
+    }
+
+    .name{
+      text-align: left;
+    }
+    .added-by{
+      color: $beyza;
+    }
+  }
+  .control-buttons{
+    height: 100%;
+    display: flex;
+    opacity: 0;
+    flex-direction: column;
+    margin: 2px;
+    color: $beyza;
+    transition: opacity .3s;
+  }
+} 

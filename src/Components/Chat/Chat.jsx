@@ -18,7 +18,6 @@ function Chat({messages, username}) {
 
   const userColor = {}
   var i = 0;
-
   return (
     <div className='chat-field'>
       <div className='messages'>

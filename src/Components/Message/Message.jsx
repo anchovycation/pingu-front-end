@@ -1,11 +1,9 @@
 import React from 'react';
 import './Message.scss'
 
-function Message(props) {
-  var d = new Date();
+function Message({username, message, style, ...props}) {
+  var d = new Date(message.date);
   var date = d.toLocaleTimeString();
-
-  const {username, message, style} = props;
 
   return (
     <div className='message'>     
