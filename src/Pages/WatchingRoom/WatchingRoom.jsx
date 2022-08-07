@@ -54,30 +54,16 @@ function WatchingRoomPage() {
       setName(username);
     });
 
-
     return () => newSocket.close();
   }, []);
   
-  
-  //************ */
-
   const press = () => {
     socket.emit(SOCKET_EVENTS.TYPING, { id, username });
   };
 
   //mesajlasma socketi eklendiginde calistirilacak fonksiyon
   const click = () => {
-    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });
-
-
-    
-    socket.emit(SOCKET_EVENTS.ADD_VIDEO_TO_PLAYLIST, {id: room.id, link: 'asdasd', username});
-    socket.on(SOCKET_EVENTS.PLAYLIST_UPDATED, (video) => {
-      let temp = playlist;
-      temp.push(video);
-      setPlaylist(temp);
-      console.log({temp});
-    });
+    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });    
   };
 
   let playlistProps = {
@@ -104,7 +90,7 @@ function WatchingRoomPage() {
               }
             </div>
           </div>
-          <div className='col-3 chat-palylist'>
+          <div className='col-3 chat-playlist'>
             <ChatPlaylistContainer playlistProps={playlistProps} chatProps={chatProps} />
             {/* <Chat messages={messages} username={name} /> */}
           </div>

@@ -40,5 +40,8 @@
     margin: 2px;
     color: $beyza;
     transition: opacity .3s;
+    *{
+      cursor: pointer;
+    }
   }
-} 
+}
