@@ -1,4 +1,4 @@
-import { React, useState, useRef, useContext } from "react";
+import { React, useContext } from "react";
 import TextInput from "../TextInput/TextInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
@@ -41,7 +41,6 @@ function SendMessageInput () {
             refSetter={refSetter}
           />
         </div>
-        {input?.current?.value}
         <div className="col-2 icon">
           <FontAwesomeIcon icon={faPaperPlane} onClick={clickHandler}/>
         </div>

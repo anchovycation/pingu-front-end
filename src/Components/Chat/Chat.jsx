@@ -22,6 +22,7 @@ function Chat({messages, typingUser}) {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+    console.log(bottomRef);
   }, [messages]);
 
   const userColor = {}
@@ -54,9 +55,10 @@ function Chat({messages, typingUser}) {
             />
           )
         })
-      }    
+      }
+      <div ref={bottomRef} />
       </div>
-      <div className='send-message-input' ref={bottomRef}>
+      <div className='send-message-input'>
         {typingUser !== "" ? <p>{typingUser} typing</p>: null}
         <SendMessageInput/>
       </div>

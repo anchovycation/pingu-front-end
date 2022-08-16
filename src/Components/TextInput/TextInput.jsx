@@ -15,7 +15,9 @@ function TextInput({
   ...props}) {
 
   const input = useRef(null);
-  refSetter(input);
+  if (refSetter){
+    refSetter(input);
+  }
 
   useEffect(() => {
     if (isFocused) {
