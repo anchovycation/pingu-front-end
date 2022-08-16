@@ -16,7 +16,7 @@ function SendMessageInput () {
 
   const clickHandler = (event) =>{
     if(input?.current?.value.trim() ==='')
-    return;
+      return;
     
     click(event);
     input.current.value = '';
