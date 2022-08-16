@@ -22,7 +22,6 @@ function Chat({messages, typingUser}) {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({behavior: 'smooth'});
-    console.log(bottomRef);
   }, [messages]);
 
   const userColor = {}
