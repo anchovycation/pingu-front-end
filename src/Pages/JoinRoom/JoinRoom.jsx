@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import axios from '../../Axios';
 
 import TextInput from '../../Components/TextInput/TextInput';
 
@@ -9,7 +10,14 @@ function JoinRoomPage() {
   const [roomId, setRoomId] = useState('');
   const navigate = useNavigate();
 
-  const next = () => {
+  const next = async () => {
+    if(roomId.trim() ===''){
+      return alert(`room id can\'t be empty!`);
+    }
+    const { data, status } = await axios.get(`rooms/${roomId}/is-exist`);
+    if(!data.isExist){
+      return alert(`room:${roomId} not found!`);
+    } 
     navigate(`/join-room/${roomId}`, { state: { roomId } });
   }
 

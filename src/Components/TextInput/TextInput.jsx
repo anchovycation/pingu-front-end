@@ -2,29 +2,49 @@ import React, { useEffect, useRef } from 'react';
 
 import './TextInput.scss';
 
-function TextInput(props) {
+function TextInput({ 
+  detail,
+  style,
+  isFocused,
+  valueSetter,
+  label,
+  hasError,
+  placeholder,
+  press,
+  refSetter,
+  ...props}) {
 
   const input = useRef(null);
+  if (refSetter){
+    refSetter(input);
+  }
+
   useEffect(() => {
-    if (props.isFocused) {
+    if (isFocused) {
       input.current?.focus();
     }
   }, [])
 
   const callSetter = (event) => {
-    props.valueSetter(event.target.value.trim());
+    let text = event.target.value.trim();
+    if(text === ''){
+      return;
+    }
+    valueSetter(text);
   }
 
   return (
-    <div className='text-input' style={props.style}>
-      <p className='header'>{props.label}</p>
-      <input type="text" 
-        className={props.hasError ? 'error' : undefined} 
-        ref={input} onChange={callSetter} 
-        onKeyPress={props.press} 
-        placeholder={props.placeholder}
+    <div className='text-input' style={style}>
+      <p className='header'>{label}</p>
+      <input 
+        type="text" 
+        className={hasError ? 'error' : undefined} 
+        ref={input}
+        onChange={callSetter} 
+        onKeyPress={press} 
+        placeholder={placeholder}
       />
-      {props.detail && (<small className='detail'>{props.detail}</small>)}
+      {detail && (<small className='detail'>{detail}</small>)}
     </div>
   );
 }

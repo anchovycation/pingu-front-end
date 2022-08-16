@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import SendMessageInput from '../SendMessageInput/SendMessageInput';
 import Message from '../Message/Message';
 import './Chat.scss'
 
 function Chat({messages, typingUser}) {
+
+  const bottomRef = useRef(null);
+
   const colors = [
     '#FF0000', // red
     '#FFA500', // orange
@@ -16,8 +19,14 @@ function Chat({messages, typingUser}) {
     '#FF007F', // rose
   ];
 
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+  }, [messages]);
+
   const userColor = {}
   var i = 0;
+
   return (
     <div className='chat-field'>
       <div className='messages'>
@@ -45,7 +54,8 @@ function Chat({messages, typingUser}) {
             />
           )
         })
-      }    
+      }
+      <div ref={bottomRef} />
       </div>
       <div className='send-message-input'>
         {typingUser !== "" ? <p>{typingUser} typing</p>: null}
