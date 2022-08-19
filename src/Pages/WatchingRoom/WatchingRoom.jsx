@@ -107,12 +107,12 @@ function WatchingRoomPage() {
     let temp = playlist;
     const index = playlist.findIndex(video => video.id === videoId); 
 
-    if (index === 0) {
+    if (playlist.length === index) {
       return;
     }
 
     const element = temp.splice(index, 1)[0];
-    temp.splice(index - 1, 0, element);
+    temp.splice(index + 1, 0, element);
     setPlaylist([...temp]);
   
     return playlist;
