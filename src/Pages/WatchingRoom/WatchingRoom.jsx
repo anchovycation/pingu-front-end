@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import ChatPlaylistContainer from '../../Components/ChatPlaylistContainer/ChatPlaylistContainer';
 import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
-import SOCKET_EVENTS from "../../Constants/SocketEvents";
+import { SOCKET_EVENTS, PLAYLIST_STATUS } from "../../Constants";
 import { Context } from '../../Contexts/SendMessageInputContext';
 
 import './WatchingRoom.scss';
@@ -23,6 +23,8 @@ function WatchingRoomPage() {
   const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState("");
   const [playlist, setPlaylist] = useState(state.room.playlist);
+  const [playlistStatus, setPlaylistStatus] = useState("");
+  const [videoId, setPlVideoId] = useState("");
   
   const id = room.id;
   const userId = user.id;
@@ -33,7 +35,7 @@ function WatchingRoomPage() {
       transports: ["websocket"],
     });
     setSocket(newSocket);
-    newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId });
+    newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId, username });
     newSocket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
       setRoom(JSON.parse(room));
     });
@@ -54,12 +56,68 @@ function WatchingRoomPage() {
       setTypingUser(username);
     });
 
+    newSocket.on(SOCKET_EVENTS.PLAYLIST_UPDATED, ({playlist, playlistStatus}) => {
+      setPlaylistStatus("");
+      setPlaylist([...playlist]);
+    });
+
     return () => newSocket.close();
   }, []);
+
+  useEffect(() => {
+    socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id, videoId, username, link:text, playlistStatus});
+  }, [playlistStatus]);
   
   const press = () => {
     socket.emit(SOCKET_EVENTS.TYPING, { id, username });
   };
+
+  const moveUpVideo = (videoId) => {
+    setPlVideoId(videoId);
+    setPlaylistStatus(PLAYLIST_STATUS.MOVE_UP);
+    let temp = playlist;
+    const index = playlist.findIndex(video => video.id === videoId); 
+
+    if (index === 0) {
+      return;
+    }
+
+    const element = temp.splice(index, 1)[0];
+
+    temp.splice(index - 1, 0, element);
+    setPlaylist([...temp]);
+    return playlist;
+  };
+  
+  const removeVideo = (videoId) => {
+    setPlVideoId(videoId);
+    setPlaylistStatus(PLAYLIST_STATUS.REMOVE);
+    let temp = playlist;
+    const index = playlist.findIndex(video => video.id === videoId);
+
+    temp.splice(index, 1);
+    setPlaylist([...temp]);
+
+    return playlist;
+  };
+  
+  const moveDownVideo = (videoId) => {
+    setPlVideoId(videoId);
+    setPlaylistStatus(PLAYLIST_STATUS.MOVE_DOWN);
+    let temp = playlist;
+    const index = playlist.findIndex(video => video.id === videoId); 
+
+    if (index === 0) {
+      return;
+    }
+
+    const element = temp.splice(index, 1)[0];
+    temp.splice(index - 1, 0, element);
+    setPlaylist([...temp]);
+  
+    return playlist;
+  };
+
 
   //mesajlasma socketi eklendiginde calistirilacak fonksiyon
   const click = () => {
@@ -68,6 +126,9 @@ function WatchingRoomPage() {
 
   let playlistProps = {
     playlist,
+    moveUpVideo,
+    removeVideo,
+    moveDownVideo,
   },
   chatProps = { 
     messages,
@@ -96,7 +157,7 @@ function WatchingRoomPage() {
         </div>
         <div className='row'>
           <div className='col-8 cameras'>cameras</div>
-          <div className='col-3 control-panel'>control panel</div>
+          <div className='col-3 control-panel'><button onClick={() => setPlaylistStatus(PLAYLIST_STATUS.ADD)}> video ekle</button></div>
         </div>
       </div>
     </Context.Provider>

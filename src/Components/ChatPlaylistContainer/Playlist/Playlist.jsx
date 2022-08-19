@@ -1,11 +1,12 @@
 import React from 'react'
 import PlaylistItem from './PlaylistItem/PlaylistItem';
+import './Playlist.scss'
 
 function Playlist({playlist, ...props}) {
   return (
-    <div>
+    <div className='playlist'>
       {
-        playlist.map((props) => <PlaylistItem key={props.id} {...props}/> ) 
+        playlist.map((video) => <PlaylistItem key={video.id} {...video} moveUpVideo={props.moveUpVideo} removeVideo={props.removeVideo} moveDownVideo={props.moveDownVideo}/> ) 
       }
     </div>
   )
