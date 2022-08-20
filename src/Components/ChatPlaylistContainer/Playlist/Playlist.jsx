@@ -6,7 +6,7 @@ function Playlist({playlist, ...props}) {
   return (
     <div className='playlist'>
       {
-        playlist.map((video) => <PlaylistItem key={video.id} {...video} moveUpVideo={props.moveUpVideo} removeVideo={props.removeVideo} moveDownVideo={props.moveDownVideo}/> ) 
+        playlist.map((video) => <PlaylistItem key={video.id} {...video} {...props}/> ) 
       }
     </div>
   )
