@@ -1,0 +1,25 @@
+@import "../../../styles/variables.scss";
+
+  .playlist {
+    overflow-y: auto;
+    max-height:400px;
+  }
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: $alihan; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $navy; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $light-navy; 
+  }

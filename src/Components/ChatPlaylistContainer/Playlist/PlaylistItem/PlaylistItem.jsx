@@ -5,7 +5,7 @@ import { faAngleUp, faTrashCan, faAngleDown } from '@fortawesome/free-solid-svg-
 
 import './PlaylistItem.scss';
 
-function PlaylistItem({ id, username, link }) {
+function PlaylistItem({ id, username, link, moveUpVideo, moveDownVideo, removeVideo}) {
   return (
     <div className="playlist-item" id={id} >
       <div className="thumbnail">
@@ -19,9 +19,9 @@ function PlaylistItem({ id, username, link }) {
         <small className="added-by">{username}</small>
       </div>
       <div className="control-buttons">
-        <FontAwesomeIcon icon={faAngleUp} />
-        <FontAwesomeIcon icon={faTrashCan} />
-        <FontAwesomeIcon icon={faAngleDown} />
+        <FontAwesomeIcon icon={faAngleUp} onClick={() => moveUpVideo(id)} />
+        <FontAwesomeIcon icon={faTrashCan} onClick={() => removeVideo(id)} />
+        <FontAwesomeIcon icon={faAngleDown} onClick={() => moveDownVideo(id)} />
       </div>
     </div>
   )

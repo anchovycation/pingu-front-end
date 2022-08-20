@@ -7,6 +7,8 @@ const SOCKET_EVENTS = {
   RECEIVE_MESSAGE: 'receive-message',
   TYPING: 'typing',
   DISPLAY: 'display',
+  UPDATE_PLAYLIST: 'update-playlist',
+  PLAYLIST_UPDATED: 'playlist-updated',
 };
 
 export default SOCKET_EVENTS;
