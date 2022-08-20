@@ -75,47 +75,16 @@ function WatchingRoomPage() {
   const moveUpVideo = (videoId) => {
     setPlVideoId(videoId);
     setPlaylistStatus(PLAYLIST_STATUS.MOVE_UP);
-    let temp = playlist;
-    const index = playlist.findIndex(video => video.id === videoId); 
-
-    if (index === 0) {
-      return;
-    }
-
-    const element = temp.splice(index, 1)[0];
-
-    temp.splice(index - 1, 0, element);
-    setPlaylist([...temp]);
-    return playlist;
   };
   
   const removeVideo = (videoId) => {
     setPlVideoId(videoId);
     setPlaylistStatus(PLAYLIST_STATUS.REMOVE);
-    let temp = playlist;
-    const index = playlist.findIndex(video => video.id === videoId);
-
-    temp.splice(index, 1);
-    setPlaylist([...temp]);
-
-    return playlist;
   };
   
   const moveDownVideo = (videoId) => {
     setPlVideoId(videoId);
     setPlaylistStatus(PLAYLIST_STATUS.MOVE_DOWN);
-    let temp = playlist;
-    const index = playlist.findIndex(video => video.id === videoId); 
-
-    if (playlist.length === index) {
-      return;
-    }
-
-    const element = temp.splice(index, 1)[0];
-    temp.splice(index + 1, 0, element);
-    setPlaylist([...temp]);
-  
-    return playlist;
   };
 
 
