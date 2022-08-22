@@ -148,7 +148,6 @@ function WatchingRoomPage() {
         </div>
         <div className='row'>
           <div className='col-8 cameras'>cameras</div>
-          <div className='col-3 control-panel'><button onClick={() => setPlaylistStatus(PLAYLIST_STATUS.ADD)}> video ekle</button></div>
         </div>
       </div>
     </Context.Provider>
