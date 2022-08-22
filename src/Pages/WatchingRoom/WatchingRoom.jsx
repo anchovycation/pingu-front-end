@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
-import ChatPlaylistContainer from '../../Components/ChatPlaylistContainer/ChatPlaylistContainer';
-import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
-import { SOCKET_EVENTS, PLAYLIST_STATUS } from "../../Constants";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import VideoAdder from '../../Components/VideoAdder/VideoAdder';
 import { Context } from '../../Contexts/SendMessageInputContext';
+import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
+import ChatPlaylistContainer from '../../Components/ChatPlaylistContainer/ChatPlaylistContainer';
+
+import {
+  SOCKET_EVENTS,
+  PLAYLIST_STATUS
+} from "../../Constants";
 
 import './WatchingRoom.scss';
 
@@ -27,8 +32,10 @@ function WatchingRoomPage() {
   const [videoId, setPlVideoId] = useState("");
   
   const id = room.id;
-  const userId = user.id;
-  const username = user.username;
+  const {
+    id: userId,
+    username,
+  } = user;
 
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_API_PATH, {
@@ -38,6 +45,7 @@ function WatchingRoomPage() {
     newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId, username });
     newSocket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
       setRoom(JSON.parse(room));
+      setPlaylist(JSON.parse(room).playlist);
     });
 
     newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ text, user }) => {
@@ -93,6 +101,17 @@ function WatchingRoomPage() {
     socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });    
   };
 
+  const requestAddVideoToPlaylist = ({link, event}) => {
+    if(event.key === 'Enter'){
+      socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST,{
+        playlistStatus: PLAYLIST_STATUS.ADD,
+        id,
+        username,
+        link 
+      });
+    }
+  };
+
   let playlistProps = {
     playlist,
     moveUpVideo,
@@ -107,6 +126,9 @@ function WatchingRoomPage() {
   return (
     <Context.Provider value={{ setText, click, press }}>
       <div className='watching-room container'>
+        <div className="row col">
+          <VideoAdder addVideoFunc={requestAddVideoToPlaylist}/>
+        </div>
         <div className='row container'>
           <div className="col header">
             <h2><span className='orange-text'>{room.name}</span></h2>
