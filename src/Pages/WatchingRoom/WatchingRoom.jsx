@@ -30,7 +30,8 @@ function WatchingRoomPage() {
   const [playlist, setPlaylist] = useState(state.room.playlist);
   const [playlistStatus, setPlaylistStatus] = useState("");
   const [videoId, setPlVideoId] = useState("");
-  
+  const [link, setLink] = useState('');
+
   const id = room.id;
   const {
     id: userId,
@@ -73,7 +74,7 @@ function WatchingRoomPage() {
   }, []);
 
   useEffect(() => {
-    socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id, videoId, username, link:text, playlistStatus});
+    socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id, videoId, username, link, playlistStatus});
   }, [playlistStatus]);
   
   const press = () => {
@@ -103,12 +104,8 @@ function WatchingRoomPage() {
 
   const requestAddVideoToPlaylist = ({link, event}) => {
     if(event.key === 'Enter'){
-      socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST,{
-        playlistStatus: PLAYLIST_STATUS.ADD,
-        id,
-        username,
-        link 
-      });
+      setLink(link);
+      setPlaylistStatus(PLAYLIST_STATUS.ADD)
     }
   };
 
