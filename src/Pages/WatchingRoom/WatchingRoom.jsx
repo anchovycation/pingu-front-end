@@ -88,6 +88,18 @@ function WatchingRoomPage() {
       }
       setVideoStatus("");
     });
+
+    newSocket.on(SOCKET_EVENTS.VIDEO_SKIPPED, ({ 
+      video: newVideo,
+      playlist: newPlaylist,
+    }) => {
+      setPlaylist(newPlaylist);
+      setRoom({ 
+        ...room,
+        video: newVideo
+      });
+    });
+
     return () => newSocket.close();
   }, []);
 
@@ -97,7 +109,6 @@ function WatchingRoomPage() {
 
   useEffect(() => {
     socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, {id, video, videoStatus});
-    console.log(videoStatus);
   }, [videoStatus]);
   
   const press = () => {
@@ -132,6 +143,10 @@ function WatchingRoomPage() {
     }
   };
 
+  const skipVideo = () => {
+    socket.emit(SOCKET_EVENTS.SKIP_VIDEO, { id });
+  }
+
   let playlistProps = {
     playlist,
     moveUpVideo,
@@ -156,10 +171,20 @@ function WatchingRoomPage() {
         </div>
         <div className='row'>
           <div className='col-8'>
-            <div className="">
-              {
-                room?.video?.link ? (<YouTubePlayer url={room.video.link} ref={player} setVideoStatus={setVideoStatus} />) : (<h3>video not found</h3>)
-              }
+            <div className="row">
+              <div className="col">
+                {
+                  room?.video?.link ? (<YouTubePlayer url={room.video.link} ref={player} setVideoStatus={setVideoStatus} />) : (<h3>video not found</h3>)
+                }
+              </div>
+            </div>
+            <div className="row">
+              <div className="col ">
+                <button 
+                  className="skip-button"
+                  onClick={skipVideo}
+                >skip video</button>
+              </div>
             </div>
           </div>
           <div className='col-3 chat-playlist'>
