@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle} from 'react'
+import { VIDEO_STATUS } from '../../Constants';
 import YouTube from 'react-youtube';
 
 import './YouTubePlayer.scss';
 
-const YouTubePlayer = ({ url }) => {
+const YouTubePlayer = forwardRef((props, ref) => {
   // https://github.com/tjallingt/react-youtube
-  url = new URL(url);
+  const url = new URL(props.url);
   const [id, setId] = useState(new URLSearchParams(url.search).get('v'))
   const [player, setPlayer] = useState({})
 
@@ -17,15 +18,35 @@ const YouTubePlayer = ({ url }) => {
       autoplay: 0,
     }
   }
+
   const onPlayerReady = (event) => {
-    setPlayer(event.target)
+    setPlayer(event.target);
   }
+
+  const playVideo = () => {
+    props.setVideoStatus(VIDEO_STATUS.PLAYED);
+  }
+
+  const stopVideo = () => {
+    props.setVideoStatus(VIDEO_STATUS.STOPPED);
+  }
+
+
+  useImperativeHandle(ref, () => ({ 
+    playVideo: () => {
+      player.playVideo();
+    },
+    stopVideo: () => {
+      player.pauseVideo();
+    } 
+  }));
 
   return (
     <div className='youtube-player ratio ratio-16x9'>
-      <YouTube videoId={id} opts={opts} onReady={onPlayerReady} className='ratio ratio-16x9' />
+      <YouTube videoId={id} opts={opts} onReady={onPlayerReady} onPlay={playVideo} onPause={stopVideo} className='ratio ratio-16x9' />
     </div>
   )
-}
+})
 
-export default YouTubePlayer
+export default YouTubePlayer;
+
