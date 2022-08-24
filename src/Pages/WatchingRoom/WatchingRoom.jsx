@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import VideoAdder from '../../Components/VideoAdder/VideoAdder';
 import { Context } from '../../Contexts/SendMessageInputContext';
@@ -8,7 +8,8 @@ import ChatPlaylistContainer from '../../Components/ChatPlaylistContainer/ChatPl
 
 import {
   SOCKET_EVENTS,
-  PLAYLIST_STATUS
+  PLAYLIST_STATUS,
+  VIDEO_STATUS,
 } from "../../Constants";
 
 import './WatchingRoom.scss';
@@ -31,12 +32,15 @@ function WatchingRoomPage() {
   const [playlistStatus, setPlaylistStatus] = useState("");
   const [videoId, setPlVideoId] = useState("");
   const [link, setLink] = useState('');
+  const [videoStatus, setVideoStatus] =  useState("");
+  const player = useRef(null);
 
   const id = room.id;
   const {
     id: userId,
     username,
   } = user;
+  const video = room.video;
 
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_API_PATH, {
@@ -65,17 +69,36 @@ function WatchingRoomPage() {
       setTypingUser(username);
     });
 
-    newSocket.on(SOCKET_EVENTS.PLAYLIST_UPDATED, ({playlist, playlistStatus}) => {
+    newSocket.on(SOCKET_EVENTS.PLAYLIST_UPDATED, ({ playlist, playlistStatus }) => {
       setPlaylistStatus("");
       setPlaylist([...playlist]);
     });
 
+    newSocket.on(SOCKET_EVENTS.VIDEO_STATUS_UPDATED, ({ video }) =>  {
+      console.log(video.status);
+      switch(video.status) {
+        case VIDEO_STATUS.PLAYED:
+          player.current.playVideo();
+          break;
+        case VIDEO_STATUS.STOPPED:
+          player.current.stopVideo();
+          break;
+        default:
+          return;
+      }
+      setVideoStatus("");
+    });
     return () => newSocket.close();
   }, []);
 
   useEffect(() => {
     socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id, videoId, username, link, playlistStatus});
   }, [playlistStatus]);
+
+  useEffect(() => {
+    socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, {id, video, videoStatus});
+    console.log(videoStatus);
+  }, [videoStatus]);
   
   const press = () => {
     socket.emit(SOCKET_EVENTS.TYPING, { id, username });
@@ -135,7 +158,7 @@ function WatchingRoomPage() {
           <div className='col-8'>
             <div className="">
               {
-                room?.video?.link ? (<YouTubePlayer url={room.video.link} />) : (<h3>video not found</h3>)
+                room?.video?.link ? (<YouTubePlayer url={room.video.link} ref={player} setVideoStatus={setVideoStatus} />) : (<h3>video not found</h3>)
               }
             </div>
           </div>
