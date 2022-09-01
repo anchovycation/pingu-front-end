@@ -11,12 +11,8 @@ const getIdFromUrl = ( url ) => {
 
 const YouTubePlayer = forwardRef((props, ref) => {
   // https://github.com/tjallingt/react-youtube
-  const [id, setId] = useState(getIdFromUrl(props.url))
-  const [player, setPlayer] = useState({})
-
-  useEffect(() => {
-    setId(getIdFromUrl(props.url));
-  }, []);
+  const [id, setId] = useState(getIdFromUrl(props.url));
+  const [player, setPlayer] = useState({});
 
   useEffect(( )=> {
     setId(getIdFromUrl(props.url));
