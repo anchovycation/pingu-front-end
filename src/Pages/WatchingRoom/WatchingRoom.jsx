@@ -93,7 +93,7 @@ function WatchingRoomPage() {
       video: newVideo,
       playlist: newPlaylist,
     }) => {
-      setPlaylist(newPlaylist);
+      setPlaylist([...newPlaylist]);
       setRoom({ 
         ...room,
         video: newVideo
@@ -144,6 +144,9 @@ function WatchingRoomPage() {
   };
 
   const skipVideo = () => {
+    if(playlist.length == 0){
+      return;
+    }
     socket.emit(SOCKET_EVENTS.SKIP_VIDEO, { id });
   }
 
