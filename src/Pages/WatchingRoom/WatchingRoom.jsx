@@ -144,7 +144,7 @@ function WatchingRoomPage() {
   };
 
   const skipVideo = () => {
-    if(playlist.length == 0){
+    if(playlist.length === 0){
       return;
     }
     socket.emit(SOCKET_EVENTS.SKIP_VIDEO, { id });
