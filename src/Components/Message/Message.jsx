@@ -6,7 +6,7 @@ function Message({username, message, style, ...props}) {
   var date = d.toLocaleTimeString();
 
   return (
-    <div className='message'>     
+    <div className='message'>
       <div className='username-date'>
         <strong className='name' style={style}>{username}</strong>
         <small>{date}</small>

@@ -4,11 +4,21 @@ import YouTube from 'react-youtube';
 
 import './YouTubePlayer.scss';
 
+const getIdFromUrl = ( url ) => {
+  const u = new URL(url);
+  return new URLSearchParams(u.search).get('v');
+}
+
 const YouTubePlayer = forwardRef((props, ref) => {
   // https://github.com/tjallingt/react-youtube
-  const url = new URL(props.url);
-  const [id, setId] = useState(new URLSearchParams(url.search).get('v'))
-  const [player, setPlayer] = useState({})
+  const [id, setId] = useState(getIdFromUrl(props.url));
+  const [player, setPlayer] = useState({});
+
+  useEffect(( )=> {
+    setId(getIdFromUrl(props.url));
+    player.loadVideoById && player.loadVideoById(id);
+  },
+  [props.url]);
 
   const opts = {
     height: '500',
@@ -46,7 +56,7 @@ const YouTubePlayer = forwardRef((props, ref) => {
       <YouTube videoId={id} opts={opts} onReady={onPlayerReady} onPlay={playVideo} onPause={stopVideo} className='ratio ratio-16x9' />
     </div>
   )
-})
+});
 
 export default YouTubePlayer;
 
