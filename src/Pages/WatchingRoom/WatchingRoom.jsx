@@ -33,6 +33,7 @@ function WatchingRoomPage() {
   const [videoId, setPlVideoId] = useState("");
   const [link, setLink] = useState('');
   const [videoStatus, setVideoStatus] =  useState("");
+  const [duration, setVideoDuration] = useState(0);
   const player = useRef(null);
 
   const id = room.id;
@@ -100,6 +101,10 @@ function WatchingRoomPage() {
       });
     });
 
+    newSocket.on(SOCKET_EVENTS.VIDEO_DURATION_CHANGED, ({ video } ) => {
+      player.current.jumpInVideo(video.duration);
+    });
+
     return () => newSocket.close();
   }, []);
 
@@ -110,6 +115,10 @@ function WatchingRoomPage() {
   useEffect(() => {
     socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, {id, video, videoStatus});
   }, [videoStatus]);
+  
+  useEffect(() => {
+    socket && socket.emit(SOCKET_EVENTS.CHANGE_VIDEO_DURATION, ({ id, duration } ));
+  }, [duration]);
   
   const press = () => {
     socket.emit(SOCKET_EVENTS.TYPING, { id, username });
@@ -177,7 +186,7 @@ function WatchingRoomPage() {
             <div className="row">
               <div className="col">
                 {
-                  room?.video?.link ? (<YouTubePlayer url={room.video.link} ref={player} setVideoStatus={setVideoStatus} />) : (<h3>video not found</h3>)
+                  room?.video?.link ? (<YouTubePlayer url={room.video.link} ref={player} setVideoStatus={setVideoStatus} setVideoDuration={setVideoDuration} />) : (<h3>video not found</h3>)
                 }
               </div>
             </div>
