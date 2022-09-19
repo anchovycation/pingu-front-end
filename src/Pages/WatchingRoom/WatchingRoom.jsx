@@ -33,7 +33,6 @@ function WatchingRoomPage() {
   const [videoId, setPlVideoId] = useState("");
   const [link, setLink] = useState('');
   const [videoStatus, setVideoStatus] =  useState("");
-  const [duration, setVideoDuration] = useState(0);
   const player = useRef(null);
 
   const id = room.id;
@@ -42,6 +41,7 @@ function WatchingRoomPage() {
     username,
   } = user;
   const video = room.video;
+  const [duration, setVideoDuration] = useState(video.duration);
 
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_API_PATH, {
@@ -109,15 +109,15 @@ function WatchingRoomPage() {
   }, []);
 
   useEffect(() => {
-    socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id, videoId, username, link, playlistStatus});
+    socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id, videoId, userId, link, playlistStatus});
   }, [playlistStatus]);
 
   useEffect(() => {
-    socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, {id, video, videoStatus});
+    socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, {id, userId, video, videoStatus});
   }, [videoStatus]);
   
   useEffect(() => {
-    socket && socket.emit(SOCKET_EVENTS.CHANGE_VIDEO_DURATION, ({ id, duration } ));
+    socket && socket.emit(SOCKET_EVENTS.CHANGE_VIDEO_DURATION, ({ id, userId, duration } ));
   }, [duration]);
   
   const press = () => {
@@ -156,7 +156,7 @@ function WatchingRoomPage() {
     if(playlist.length === 0){
       return;
     }
-    socket.emit(SOCKET_EVENTS.SKIP_VIDEO, { id });
+    socket.emit(SOCKET_EVENTS.SKIP_VIDEO, { id, userId });
   }
 
   let playlistProps = {

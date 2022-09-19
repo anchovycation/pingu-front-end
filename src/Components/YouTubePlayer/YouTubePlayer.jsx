@@ -69,7 +69,6 @@ const handleEvent = type => {
   if (type === 1 && isSubArrayEnd(sequence, [3]) && !sequence.includes(-1)) {
     props.setVideoDuration(currentTime);
     setSequence([]);
-    return;
   } else {
     clearTimeout(timer);
     if (type !== 3) {
