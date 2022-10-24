@@ -50,8 +50,9 @@ function WatchingRoomPage() {
     setSocket(newSocket);
     newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId, username });
     newSocket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
-      setRoom(JSON.parse(room));
-      setPlaylist(JSON.parse(room).playlist);
+      let tempRoom = typeof room === 'string' ? JSON.parse(room) : room;
+      setRoom(tempRoom);
+      setPlaylist(tempRoom.playlist);
     });
 
     newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ text, user }) => {
@@ -76,10 +77,10 @@ function WatchingRoomPage() {
     });
 
     newSocket.on(SOCKET_EVENTS.VIDEO_STATUS_UPDATED, ({ video }) =>  {
-      console.log(video.status);
       switch(video.status) {
         case VIDEO_STATUS.PLAYED:
           player.current.playVideo();
+          player.current.jumpInVideo(video.duration);
           break;
         case VIDEO_STATUS.STOPPED:
           player.current.stopVideo();
