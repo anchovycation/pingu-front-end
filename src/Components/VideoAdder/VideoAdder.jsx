@@ -18,17 +18,13 @@ function VideoAdder({ addVideoFunc }) {
   };
   
   return (
-    <div style={{ width: '680px' }}>
-      <div className="col-8">
-        <TextInput
-          placeholder="YouTube url like https://www.youtube.com/watch?v=CD6yRV1NKBA"
-          valueSetter={setLink}
-          press={addVideo}
-          refSetter={setInputRef}
-        />
-      </div>
-      <div className="col-4">
-      </div>
+    <div>
+      <TextInput
+        placeholder="YouTube video or playlist link"
+        valueSetter={setLink}
+        press={addVideo}
+        refSetter={setInputRef}
+      />
     </div>
 )
 }
