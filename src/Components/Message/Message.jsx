@@ -2,8 +2,8 @@ import React from 'react';
 import './Message.scss'
 
 function Message({ username, message, date, style, ...props }) {
-  var d = new Date(date);
-  var date = d.toLocaleTimeString('en-US', {
+  let d = new Date(date);
+  let formatedDate = d.toLocaleTimeString('en-US', {
     hour12: false,
   });
 
@@ -11,7 +11,7 @@ function Message({ username, message, date, style, ...props }) {
     <div className='message'>
       <div className='username-date'>
         <strong className='name' style={style}>{username}</strong>
-        <small>{date}</small>
+        <small>{formatedDate}</small>
       </div>
       {message}
     </div>
