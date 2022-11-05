@@ -35,7 +35,7 @@ function TextInput({
 
   return (
     <div className='text-input' style={style}>
-      <p className='header'>{label}</p>
+      { label && <p className='header'>{label}</p> }
       <input 
         type="text" 
         className={hasError ? 'error' : undefined} 
@@ -43,6 +43,7 @@ function TextInput({
         onChange={callSetter} 
         onKeyPress={press} 
         placeholder={placeholder}
+        title={placeholder}
       />
       {detail && (<small className='detail'>{detail}</small>)}
     </div>

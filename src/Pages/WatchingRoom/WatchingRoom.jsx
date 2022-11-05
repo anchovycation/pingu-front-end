@@ -174,12 +174,15 @@ function WatchingRoomPage() {
   return (
     <Context.Provider value={{ setText, click, press }}>
       <div className='watching-room container'>
-        <div className="row col">
-          <VideoAdder addVideoFunc={requestAddVideoToPlaylist}/>
-        </div>
-        <div className='row container'>
-          <div className="col header">
+        <div className="row header">
+          <div className="col-4">
             <h2><span className='orange-text'>{room.name}</span></h2>
+          </div>
+          <div className="col-5">
+            <VideoAdder addVideoFunc={requestAddVideoToPlaylist}/>
+          </div>
+          <div className="col-3">
+            <span>ayarlar</span>
           </div>
         </div>
         <div className='row'>
