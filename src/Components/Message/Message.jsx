@@ -1,9 +1,11 @@
 import React from 'react';
 import './Message.scss'
 
-function Message({username, message, style, ...props}) {
-  var d = new Date(message.date);
-  var date = d.toLocaleTimeString();
+function Message({ username, message, date, style, ...props }) {
+  var d = new Date(date);
+  var date = d.toLocaleTimeString('en-US', {
+    hour12: false,
+  });
 
   return (
     <div className='message'>
