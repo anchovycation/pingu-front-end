@@ -47,23 +47,22 @@ function WatchingRoomPage() {
     const newSocket = io(process.env.REACT_APP_API_PATH, {
       transports: ["websocket"],
     });
+
+    let initialRoomData = null; // kullanıcı odaya katilinca oda state'i atanmadan odaya katildi mesaji aldigi icin 
     setSocket(newSocket);
     newSocket.emit(SOCKET_EVENTS.JOIN_ROOM, { id, userId, username });
     newSocket.on(SOCKET_EVENTS.JOINED, ({ room }) => {
       let tempRoom = typeof room === 'string' ? JSON.parse(room) : room;
+      initialRoomData = tempRoom;
       setRoom(tempRoom);
       setPlaylist(tempRoom.playlist);
+      setMessages(tempRoom.messages); 
     });
 
-    newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ text, user }) => {
+    newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ message }) => {
       setTypingUser("");
-      let temp = messages;
-      temp.push({
-        id: user.id,
-        username: user.username,
-        role: user.role,
-        message: text,
-      });
+      let temp = initialRoomData.messages;
+      temp.push(message);
       setMessages([...temp]);
     });
 
@@ -91,12 +90,12 @@ function WatchingRoomPage() {
       setVideoStatus("");
     });
 
-    newSocket.on(SOCKET_EVENTS.VIDEO_SKIPPED, ({ 
+    newSocket.on(SOCKET_EVENTS.VIDEO_SKIPPED, ({
       video: newVideo,
       playlist: newPlaylist,
     }) => {
       setPlaylist([...newPlaylist]);
-      setRoom({ 
+      setRoom({
         ...room,
         video: newVideo
       });
@@ -116,11 +115,11 @@ function WatchingRoomPage() {
   useEffect(() => {
     socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, {id, video, videoStatus});
   }, [videoStatus]);
-  
+
   useEffect(() => {
     socket && socket.emit(SOCKET_EVENTS.CHANGE_VIDEO_DURATION, ({ id, duration } ));
   }, [duration]);
-  
+
   const press = () => {
     socket.emit(SOCKET_EVENTS.TYPING, { id, username });
   };
@@ -129,12 +128,12 @@ function WatchingRoomPage() {
     setPlVideoId(videoId);
     setPlaylistStatus(PLAYLIST_STATUS.MOVE_UP);
   };
-  
+
   const removeVideo = (videoId) => {
     setPlVideoId(videoId);
     setPlaylistStatus(PLAYLIST_STATUS.REMOVE);
   };
-  
+
   const moveDownVideo = (videoId) => {
     setPlVideoId(videoId);
     setPlaylistStatus(PLAYLIST_STATUS.MOVE_DOWN);
@@ -143,7 +142,7 @@ function WatchingRoomPage() {
 
   //mesajlasma socketi eklendiginde calistirilacak fonksiyon
   const click = () => {
-    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });    
+    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });
   };
 
   const requestAddVideoToPlaylist = ({link, event}) => {
@@ -166,7 +165,7 @@ function WatchingRoomPage() {
     removeVideo,
     moveDownVideo,
   },
-  chatProps = { 
+  chatProps = {
     messages,
     typingUser,
   };
@@ -196,7 +195,7 @@ function WatchingRoomPage() {
             </div>
             <div className="row">
               <div className="col ">
-                <button 
+                <button
                   className="skip-button"
                   onClick={skipVideo}
                 >skip video</button>

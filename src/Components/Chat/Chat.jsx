@@ -30,39 +30,40 @@ function Chat({messages, typingUser}) {
   return (
     <div className='chat-field'>
       <div className='messages'>
-      {
-        messages.map((message) => {
-          var userId = message.id;
+        {
+          messages.map((message) => {
+            var userId = message.userId;
 
-          //renkler yeniden kullanilir
-          if(Object.values(userColor).length  % colors.length  === 0){
-            i = 0;
-          }
+            //renkler yeniden kullanilir
+            if(Object.values(userColor).length  % colors.length  === 0){
+              i = 0;
+            }
 
-          //yeni bir kullanici mesaj attiginda
-          if(!userColor.hasOwnProperty(userId)){
-            userColor[userId] = colors[i];
-            i++;
-          }
-          
-          return (
-            <Message
-              key= {message.id}
-              username= {message.username}
-              message= {message.message}
-              style={{ color: userColor[userId] }}
-            />
-          )
-        })
-      }
-      <div ref={bottomRef} />
+            //yeni bir kullanici mesaj attiginda
+            if(!userColor.hasOwnProperty(userId)){
+              userColor[userId] = colors[i];
+              i++;
+            }
+
+            return (
+              <Message
+                key= {message.id}
+                username= {message.username}
+                message= {message.text}
+                date= {message.date}
+                style={{ color: userColor[userId] }}
+              />
+            )
+          })
+        }
+        <div ref={bottomRef} />
       </div>
       <div className='send-message-input'>
         {typingUser !== "" ? <p>{typingUser} typing</p>: null}
         <SendMessageInput/>
       </div>
     </div>
-  ); 
+  );
 }
 
 export default Chat;
