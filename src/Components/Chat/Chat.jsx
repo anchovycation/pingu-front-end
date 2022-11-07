@@ -31,7 +31,10 @@ function Chat({messages, typingUser}) {
     <div className='chat-field'>
       <div className='messages'>
         {
-          messages.map((message) => {
+          messages.map((message, index) => {
+            if(message.isSystemMessage == true){
+              return <p className='system-message'>{message.text}</p>
+            }
             var userId = message.userId;
 
             //renkler yeniden kullanilir
@@ -47,7 +50,7 @@ function Chat({messages, typingUser}) {
 
             return (
               <Message
-                key= {message.id}
+                key= {index}
                 username= {message.username}
                 message= {message.text}
                 date= {message.date}

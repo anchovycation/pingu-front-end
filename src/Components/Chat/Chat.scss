@@ -10,6 +10,12 @@
   .messages{
     overflow-y: auto;
     max-height:400px;
+
+    .system-message{
+      font-size: small;
+      color: $smoke;
+      text-align: center;
+    }
   }
 }
 
