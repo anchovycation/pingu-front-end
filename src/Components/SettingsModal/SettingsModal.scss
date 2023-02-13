@@ -1,0 +1,64 @@
+@import "../../styles/variables.scss";
+
+.modal-background {
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(3px);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-container {
+    width: 500px;
+    height: 500px;
+    border-radius: 12px;
+    background-color: $blacksea;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+
+    .close-button {
+      display: flex;
+      justify-content: flex-end;
+      cursor: pointer;
+    }
+    
+    .room-user-container {
+      div {
+        margin: 0 0 10px 0;
+        padding: 0 0 10px 20px;
+      }
+
+      .selected {
+        border-left: 3px solid $beyza;
+      }
+
+      .not-selected {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: $alihan; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $navy; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $light-navy; 
+  }
+  

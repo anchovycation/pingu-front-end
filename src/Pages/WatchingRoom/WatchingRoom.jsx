@@ -5,6 +5,9 @@ import VideoAdder from '../../Components/VideoAdder/VideoAdder';
 import { Context } from '../../Contexts/SendMessageInputContext';
 import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
 import ChatPlaylistContainer from '../../Components/ChatPlaylistContainer/ChatPlaylistContainer';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGears } from '@fortawesome/free-solid-svg-icons'
+import SettingsModal from "../../Components/SettingsModal/SettingsModal";
 
 import {
   SOCKET_EVENTS,
@@ -35,6 +38,7 @@ function WatchingRoomPage() {
   const [videoStatus, setVideoStatus] =  useState("");
   const [duration, setVideoDuration] = useState(0);
   const player = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const id = room.id;
   const {
@@ -172,6 +176,7 @@ function WatchingRoomPage() {
 
   return (
     <Context.Provider value={{ setText, click, press }}>
+      {isModalOpen && <SettingsModal closeModal={setIsModalOpen} />}
       <div className='watching-room container'>
         <div className="row header">
           <div className="col-4">
@@ -181,7 +186,7 @@ function WatchingRoomPage() {
             <VideoAdder addVideoFunc={requestAddVideoToPlaylist}/>
           </div>
           <div className="col-3">
-            <span>ayarlar</span>
+            <FontAwesomeIcon icon={faGears} onClick={() => setIsModalOpen(true)}/>
           </div>
         </div>
         <div className='row'>
