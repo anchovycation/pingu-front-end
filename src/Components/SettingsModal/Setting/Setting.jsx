@@ -1,5 +1,5 @@
-import { React, useContext } from "react";
-import NameChanger from "../NameChanger/NameChanger";
+import React from "react";
+import NameChanger from "../../NameChanger/NameChanger";
 
 import './Setting.scss'
 const components = {
@@ -8,7 +8,7 @@ const components = {
   // deleteRoomButton: deleteRoomButton,
 };
 
-function Setting({ settingType, title, info, props }) {
+function Setting({ settingType, title, info, ...props }) {
   const SpecificSetting = components[settingType];
   return (
     <div className='setting'>
@@ -18,7 +18,7 @@ function Setting({ settingType, title, info, props }) {
           <p>{info}</p>
         </div>
         <div className='setting'>
-            <SpecificSetting {...props} />
+            <SpecificSetting {...props}/>
         </div>
       </div>
     </div>

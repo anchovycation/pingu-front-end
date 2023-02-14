@@ -1,4 +1,4 @@
-import { React, useContext } from "react";
+import React from "react";
 import TextInput from "../TextInput/TextInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -10,7 +10,7 @@ function NameChanger({inputProps, icon}) {
     <div className="row">
       <div className="col-10">
         <TextInput
-          {...inputProps}
+        {...inputProps}
         />
       </div>
       <div className="col-2 icon">

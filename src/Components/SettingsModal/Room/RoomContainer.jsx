@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import Setting from '../../Setting/Setting'
+import React from 'react'
+import Setting from '../Setting/Setting'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 import './RoomContainer.scss';
@@ -20,7 +20,7 @@ function RoomContainer() {
   return (
     <div className="user-container">
       <Setting settingType={components.nameChanger} title="Room Name" 
-        info="Name of the room." props={props}  
+        info="Name of the room." {...props}
       />
     </div>
   )

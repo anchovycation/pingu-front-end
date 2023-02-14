@@ -38,7 +38,7 @@ function WatchingRoomPage() {
   const [videoStatus, setVideoStatus] =  useState("");
   const [duration, setVideoDuration] = useState(0);
   const player = useRef(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const id = room.id;
   const {
@@ -176,7 +176,7 @@ function WatchingRoomPage() {
 
   return (
     <Context.Provider value={{ setText, click, press }}>
-      {isModalOpen && <SettingsModal closeModal={setIsModalOpen} />}
+      {isSettingsOpen && <SettingsModal closeModal={setIsSettingsOpen} />}
       <div className='watching-room container'>
         <div className="row header">
           <div className="col-4">
@@ -186,7 +186,7 @@ function WatchingRoomPage() {
             <VideoAdder addVideoFunc={requestAddVideoToPlaylist}/>
           </div>
           <div className="col-3">
-            <FontAwesomeIcon icon={faGears} onClick={() => setIsModalOpen(true)}/>
+            <FontAwesomeIcon icon={faGears} onClick={() => setIsSettingsOpen(true)}/>
           </div>
         </div>
         <div className='row'>
