@@ -1,3 +1,5 @@
 import { createContext } from "react";
 
-export const Context = createContext();
+const SendMessageInputContext = createContext();
+
+export default SendMessageInputContext;

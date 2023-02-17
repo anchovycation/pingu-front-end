@@ -1,6 +1,6 @@
 import React from 'react'
 import Setting from '../Setting/Setting'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 import './RoomContainer.scss';
 
@@ -8,7 +8,7 @@ const props = {
   inputProps: {
     placeholder: "Cental Perk"
   },
-  icon: faCheck,
+  icon: faPen,
 }
 
 const components = {

@@ -2,12 +2,12 @@ import { React, useContext } from "react";
 import TextInput from "../TextInput/TextInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { Context } from "../../Contexts/SendMessageInputContext";
+import { SendMessageInputContext } from "../../Contexts";
 
 import './SendMessageInput.scss'
 
 function SendMessageInput () {
-  const { setText, click, press } = useContext(Context);
+  const { setText, click, press } = useContext(SendMessageInputContext);
   let input = null
 
   const refSetter = (ref) => {
