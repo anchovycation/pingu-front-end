@@ -1,13 +1,16 @@
-import { React, useContext } from "react";
+import { useContext, useState } from "react";
+import Socket from "../../Socket";
 import TextInput from "../TextInput/TextInput";
+import { SOCKET_EVENTS } from "../../Constants";
+import { RoomContext } from "../../Contexts/RoomContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { Context } from "../../Contexts/SendMessageInputContext";
 
 import './SendMessageInput.scss'
 
 function SendMessageInput () {
-  const { setText, click, press } = useContext(Context);
+  const { room, user } = useContext(RoomContext);
+  const [text, setText] = useState("")
   let input = null
 
   const refSetter = (ref) => {
@@ -18,7 +21,7 @@ function SendMessageInput () {
     if(input?.current?.value.trim() ==='')
       return;
     
-    click(event);
+    Socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id: room.id, text, user });
     input.current.value = '';
   }
 
@@ -26,7 +29,7 @@ function SendMessageInput () {
     if(event.key === 'Enter'){
       return clickHandler(event);
     }
-    press(event);
+    Socket.emit(SOCKET_EVENTS.TYPING, { id: room.id, username: user.username });
   }
 
   return (
