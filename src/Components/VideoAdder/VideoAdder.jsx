@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import Socket from '../../Socket';
 import TextInput from '../TextInput/TextInput';
+import { RoomContext } from "../../Contexts/RoomContext"
+import { PLAYLIST_STATUS, SOCKET_EVENTS } from '../../Constants';
 
-function VideoAdder({ addVideoFunc }) {
+function VideoAdder() {
+  const { room } = useContext(RoomContext);
   let inputRef = null;
   const setInputRef =(ref)=>{
     inputRef = ref;
@@ -12,8 +16,9 @@ function VideoAdder({ addVideoFunc }) {
     if(!link){
       return;
     }
-    addVideoFunc({event, link});
+    
     if(event.key === 'Enter')
+    Socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id: room.id, link, playlistStatus: PLAYLIST_STATUS.ADD });
     inputRef.current.value='';
   };
   
