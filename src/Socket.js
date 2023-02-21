@@ -60,6 +60,7 @@ class Socket {
 
   on(name, callback){
     if(this.events[name]){
+      this.#log(`Re-assigning callback for "${name}" event is blocked.`);
       return;
     }
     if(this.#socket === null){
