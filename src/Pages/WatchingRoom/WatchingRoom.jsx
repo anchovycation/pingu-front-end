@@ -2,14 +2,18 @@ import io from "socket.io-client";
 import { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import VideoAdder from '../../Components/VideoAdder/VideoAdder';
-import { Context } from '../../Contexts/SendMessageInputContext';
+import { SendMessageInputContext, NameChangerContext } from '../../Contexts';
 import YouTubePlayer from "../../Components/YouTubePlayer/YouTubePlayer";
 import ChatPlaylistContainer from '../../Components/ChatPlaylistContainer/ChatPlaylistContainer';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGears } from '@fortawesome/free-solid-svg-icons'
+import SettingsModal from "../../Components/SettingsModal/SettingsModal";
 
 import {
   SOCKET_EVENTS,
   PLAYLIST_STATUS,
   VIDEO_STATUS,
+  RENAMES,
 } from "../../Constants";
 
 import './WatchingRoom.scss';
@@ -32,8 +36,12 @@ function WatchingRoomPage() {
   const [playlistStatus, setPlaylistStatus] = useState("");
   const [videoId, setPlVideoId] = useState("");
   const [link, setLink] = useState('');
-  const [videoStatus, setVideoStatus] =  useState("");
+  const [videoStatus, setVideoStatus] = useState("");
   const [duration, setVideoDuration] = useState(0);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [willBeRenamed, setWillBeRenamed] = useState("");
+  const [type, setType] = useState("");
+
   const player = useRef(null);
 
   const id = room.id;
@@ -56,7 +64,7 @@ function WatchingRoomPage() {
       initialRoomData = tempRoom;
       setRoom(tempRoom);
       setPlaylist(tempRoom.playlist);
-      setMessages(tempRoom.messages); 
+      setMessages(tempRoom.messages);
     });
 
     newSocket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, ({ message }) => {
@@ -75,8 +83,8 @@ function WatchingRoomPage() {
       setPlaylist([...playlist]);
     });
 
-    newSocket.on(SOCKET_EVENTS.VIDEO_STATUS_UPDATED, ({ video }) =>  {
-      switch(video.status) {
+    newSocket.on(SOCKET_EVENTS.VIDEO_STATUS_UPDATED, ({ video }) => {
+      switch (video.status) {
         case VIDEO_STATUS.PLAYED:
           player.current.playVideo();
           player.current.jumpInVideo(video.duration);
@@ -101,23 +109,42 @@ function WatchingRoomPage() {
       });
     });
 
-    newSocket.on(SOCKET_EVENTS.VIDEO_DURATION_CHANGED, ({ video } ) => {
+    newSocket.on(SOCKET_EVENTS.VIDEO_DURATION_CHANGED, ({ video }) => {
       player.current.jumpInVideo(video.duration);
+    });
+
+    newSocket.on(SOCKET_EVENTS.NAME_CHANGED, ({ name, type }) => {
+      switch (type) {
+        case RENAMES.ROOM:
+          setRoom( room => ({
+            ...room,
+            name: name
+          }));
+          break;
+        case RENAMES.USER:
+          setUser(user =>( {
+            ...user,
+            name: name
+          }));
+          break;
+        default:
+          return;
+      }
     });
 
     return () => newSocket.close();
   }, []);
 
   useEffect(() => {
-    socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, {id, videoId, username, link, playlistStatus});
+    socket && socket.emit(SOCKET_EVENTS.UPDATE_PLAYLIST, { id, videoId, username, link, playlistStatus });
   }, [playlistStatus]);
 
   useEffect(() => {
-    socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, {id, video, videoStatus});
+    socket && socket.emit(SOCKET_EVENTS.UPDATE_VIDEO_STATUS, { id, video, videoStatus });
   }, [videoStatus]);
 
   useEffect(() => {
-    socket && socket.emit(SOCKET_EVENTS.CHANGE_VIDEO_DURATION, ({ id, duration } ));
+    socket && socket.emit(SOCKET_EVENTS.CHANGE_VIDEO_DURATION, ({ id, duration }));
   }, [duration]);
 
   const press = () => {
@@ -145,19 +172,27 @@ function WatchingRoomPage() {
     socket.emit(SOCKET_EVENTS.SEND_MESSAGE, { id, text, user });
   };
 
-  const requestAddVideoToPlaylist = ({link, event}) => {
-    if(event.key === 'Enter'){
+  const changeName = () => {
+    socket.emit(SOCKET_EVENTS.CHANGE_NAME, { id, type, name: willBeRenamed });
+  };
+
+  const requestAddVideoToPlaylist = ({ link, event }) => {
+    if (event.key === 'Enter') {
       setLink(link);
       setPlaylistStatus(PLAYLIST_STATUS.ADD)
     }
   };
 
   const skipVideo = () => {
-    if(playlist.length === 0){
+    if (playlist.length === 0) {
       return;
     }
     socket.emit(SOCKET_EVENTS.SKIP_VIDEO, { id });
   }
+
+  const selectContent = type => {
+    setType(type);
+  };
 
   let playlistProps = {
     playlist,
@@ -165,52 +200,55 @@ function WatchingRoomPage() {
     removeVideo,
     moveDownVideo,
   },
-  chatProps = {
-    messages,
-    typingUser,
-  };
+    chatProps = {
+      messages,
+      typingUser,
+    };
 
   return (
-    <Context.Provider value={{ setText, click, press }}>
-      <div className='watching-room container'>
-        <div className="row header">
-          <div className="col-4">
-            <h2><span className='orange-text'>{room.name}</span></h2>
-          </div>
-          <div className="col-5">
-            <VideoAdder addVideoFunc={requestAddVideoToPlaylist}/>
-          </div>
-          <div className="col-3">
-            <span>ayarlar</span>
-          </div>
-        </div>
-        <div className='row'>
-          <div className='col-8'>
-            <div className="row">
-              <div className="col">
-                {
-                  room?.video?.link ? (<YouTubePlayer url={room.video.link} ref={player} setVideoStatus={setVideoStatus} setVideoDuration={setVideoDuration} />) : (<h3>video not found</h3>)
-                }
-              </div>
+    <SendMessageInputContext.Provider value={{ setText, click, press }}>
+      <NameChangerContext.Provider value={{ setWillBeRenamed, changeName }}>
+        {isSettingsOpen && <SettingsModal closeModal={setIsSettingsOpen} selected={selectContent}/>}
+        <div className='watching-room container'>
+          <div className="row header">
+            <div className="col-4">
+              <h2><span className='orange-text'>{room.name}</span></h2>
             </div>
-            <div className="row">
-              <div className="col ">
-                <button
-                  className="skip-button"
-                  onClick={skipVideo}
-                >skip video</button>
-              </div>
+            <div className="col-5">
+              <VideoAdder addVideoFunc={requestAddVideoToPlaylist} />
+            </div>
+            <div className="col-3">
+              <FontAwesomeIcon icon={faGears} onClick={() => setIsSettingsOpen(true)} />
             </div>
           </div>
-          <div className='col-3 chat-playlist'>
-            <ChatPlaylistContainer playlistProps={playlistProps} chatProps={chatProps} />
+          <div className='row'>
+            <div className='col-8'>
+              <div className="row">
+                <div className="col">
+                  {
+                    room?.video?.link ? (<YouTubePlayer url={room.video.link} ref={player} setVideoStatus={setVideoStatus} setVideoDuration={setVideoDuration} />) : (<h3>video not found</h3>)
+                  }
+                </div>
+              </div>
+              <div className="row">
+                <div className="col ">
+                  <button
+                    className="skip-button"
+                    onClick={skipVideo}
+                  >skip video</button>
+                </div>
+              </div>
+            </div>
+            <div className='col-3 chat-playlist'>
+              <ChatPlaylistContainer playlistProps={playlistProps} chatProps={chatProps} />
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-8 cameras'>cameras</div>
           </div>
         </div>
-        <div className='row'>
-          <div className='col-8 cameras'>cameras</div>
-        </div>
-      </div>
-    </Context.Provider>
+      </NameChangerContext.Provider>
+    </SendMessageInputContext.Provider>
   );
 }
 
